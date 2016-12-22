@@ -1,0 +1,32 @@
+{
+  "name": "floor12/yii2-editmodal",
+  "description": "Yii2 to update models in bootstrap modals",
+  "type": "yii2-extension",
+  "minimum-stability": "stable",
+  "keywords": [
+    "floor12",
+    "yii",
+    "yii2",
+    "yii 2"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "floor12",
+      "email": "primelifecoder@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.9",
+    "yiisoft/yii2-jui": "*",
+    "rmrevin/yii2-fontawesome": "~2.15"
+  },
+  "autoload": {
+    "psr-4": {
+      "floor12\\editmodal\\": [
+        "src"
+      ]
+    }
+  }
+}
