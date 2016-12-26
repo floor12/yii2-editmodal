@@ -17,6 +17,7 @@ class DeleteAction extends Action
 {
     public $model;
     public $message = 'Объект удален';
+    public $logic;
 
     public function run()
     {
@@ -31,9 +32,16 @@ class DeleteAction extends Action
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
-        if ($model->delete())
-            return $this->message;
-        else
-            throw new BadRequestHttpException('Unable to delete');
+        if ($this->logic) {
+            if (\Yii::createObject($this->logic, [$model, \Yii::$app->user->identity])->execute())
+                return $this->message;
+        } else {
+            if ($model->delete())
+                return $this->message;
+            else
+                throw new BadRequestHttpException('Unable to delete');
+        }
+
+
     }
 }

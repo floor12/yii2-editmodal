@@ -18,6 +18,15 @@ class EditModalAction extends Action
     public $model;
     public $message = 'Объект сохранен';
     public $view = '_form';
+    public $logic;
+
+    private $_return;
+
+    public function init()
+    {
+        $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1)</script>";
+        parent::init();
+    }
 
     public function run($id)
     {
@@ -30,12 +39,13 @@ class EditModalAction extends Action
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
-        if (($model->load(Yii::$app->request->post())) && $model->save()) {
-            return "<script>
-                hideFormModal(); 
-                $.pjax.reload({container:\"#items\"});
-                info('{$this->message}', 1)
-            </script>";
+        if (!$this->logic && ($model->load(Yii::$app->request->post())) && $model->save()) {
+            return $this->_return;
+        }
+
+        if ($this->logic && \Yii::$app->request->isPost) {
+            if (\Yii::createObject($this->logic, [$model, \Yii::$app->request->post(), \Yii::$app->user->identity])->execute())
+                return $this->_return;
         }
 
         return $this->controller->renderAjax($this->view, ['model' => $model]);
