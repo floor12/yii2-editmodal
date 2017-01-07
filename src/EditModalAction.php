@@ -19,12 +19,13 @@ class EditModalAction extends Action
     public $message = 'Объект сохранен';
     public $view = '_form';
     public $logic;
+    public $successJs;
 
     private $_return;
 
     public function init()
     {
-        $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1)</script>";
+        $this->_return = "<script>{$this->successJs} hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
         parent::init();
     }
 

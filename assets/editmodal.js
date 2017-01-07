@@ -77,15 +77,13 @@ function deleteItem(route, id) {
         $.ajax({
             data: {id: id},
             method: 'DELETE',
-            url: route,
-            success: function () {
+            url: '/' + route,
+            success: function (response) {
                 $.pjax.reload({container: "#items"});
-                info('Объект удален.', 1)
+                info(response, 1)
             },
             error: function () {
-                alert('Ошибка удаления');
                 info('Ошибка удаления объекта.', 2)
-
             }
         })
 
