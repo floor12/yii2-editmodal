@@ -90,12 +90,17 @@ function deleteItem(route, id) {
 }
 
 function hideFormModal() {
-    info('Отмена редактирования. Изменения не сохранены.', 0)
     $('#modaledit-modal').modal('hide');
 }
 
+function cancelModalEdit() {
+    info('Отмена редактирования. Изменения не сохранены.', 0);
+    hideFormModal();
+
+}
+
 $(document).on('click', 'a.modaledit-disable', function () {
-    hideFormModal()
+    cancelModalEdit()
     return false;
 })
 
@@ -104,13 +109,8 @@ $(document).on('submit', 'form.modaledit-form', function () {
     data = form.serialize();
     info('Отправка данных...', 0)
     $.post($(this).attr('action'), data, function (response) {
-        if (form.hasClass('from-modal')) {
-            $('#modaledit-modal div.modal-content').html("");
-            $('#modaledit-modal div.modal-content').html(response);
-        } else {
-            $('#modaledit-modal').html("");
-            $('#modaledit-modal').html(response);
-        }
+        $('#modaledit-modal div.modal-content').html("");
+        $('#modaledit-modal div.modal-content').html(response);
     })
     return false;
 })
