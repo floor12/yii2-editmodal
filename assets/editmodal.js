@@ -79,18 +79,22 @@ function deleteItem(route, id) {
             method: 'DELETE',
             url: '/' + route,
             success: function (response) {
+                hideFormModal();
+
                 $.pjax.reload({container: "#items"});
-                info(response, 1)
+                info(response, 1);
             },
             error: function () {
                 info('Ошибка удаления объекта.', 2)
             }
         })
-
+    return false;
 }
+
 
 function hideFormModal() {
     $('#modaledit-modal').modal('hide');
+    $('#modaledit-modal div.modal-content').html("");
 }
 
 function cancelModalEdit() {
