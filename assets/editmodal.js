@@ -2,6 +2,20 @@
  * Created by floor12 on 22.12.2016.
  */
 
+
+//page leaving prevent functioncs
+
+function onPageLeaving() {
+    window.onbeforeunload = function () {
+        return "Вы не сохранили форму."
+    }
+}
+
+function offPageLeaving() {
+    window.onbeforeunload = function () {
+    }
+}
+
 //prepearing page: make modal block and block for notifys
 
 $(document).ready(function () {
@@ -68,6 +82,7 @@ function showForm(route, params) {
         $('#modaledit-modal div.modal-content').html("");
         $('#modaledit-modal').modal({backdrop: 'static'});
         $('#modaledit-modal div.modal-content').html(response);
+        onPageLeaving();
         info('Форма загружена.', 0)
     })
 }
@@ -97,7 +112,8 @@ function hideFormModal() {
     $('#modaledit-modal div.modal-content').html("");
 }
 
-function cancelModalEdit() {
+function cancelModalEdit() {onPageLeaving();
+    offPageLeaving();    
     info('Отмена редактирования. Изменения не сохранены.', 0);
     hideFormModal();
 
@@ -115,6 +131,7 @@ $(document).on('submit', 'form.modaledit-form', function () {
     $.post($(this).attr('action'), data, function (response) {
         $('#modaledit-modal div.modal-content').html("");
         $('#modaledit-modal div.modal-content').html(response);
+        offPageLeaving();
     })
     return false;
 })
