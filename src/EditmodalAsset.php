@@ -25,6 +25,7 @@ class EditmodalAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\jui\JuiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
         'rmrevin\yii\fontawesome\AssetBundle',
     ];
 
