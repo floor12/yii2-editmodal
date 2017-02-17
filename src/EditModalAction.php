@@ -10,6 +10,7 @@ namespace floor12\editmodal;
 
 
 use yii\base\Action;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use \Yii;
 
@@ -19,12 +20,16 @@ class EditModalAction extends Action
     public $message = 'Объект сохранен';
     public $view = '_form';
     public $logic;
+    public $access = true;
     public $successJs;
 
     private $_return;
 
     public function init()
     {
+        if (!$this->access)
+            throw new ForbiddenHttpException();
+
         $this->_return = "<script>{$this->successJs} hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
         parent::init();
     }
