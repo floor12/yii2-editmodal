@@ -21,9 +21,8 @@ class DeleteAction extends Action
 
     public function run()
     {
-        $params = \Yii::$app->request->getBodyParams();
-        $id = $params['id'];
-        
+        $id = \Yii::$app->request->getBodyParams('id');
+
         if (!$id)
             $model = new $this->model;
         else {
