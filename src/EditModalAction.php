@@ -18,6 +18,7 @@ class EditModalAction extends Action
 {
     public $model;
     public $message = 'Объект сохранен';
+    public $scenario = null;
     public $view = '_form';
     public $logic;
     public $access = true;
@@ -45,6 +46,8 @@ class EditModalAction extends Action
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
+        if ($this->scenario)
+            $model->setScenario($this->scenario);
         if (!$this->logic && ($model->load(Yii::$app->request->post())) && $model->save()) {
             return $this->_return;
         }
