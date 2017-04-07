@@ -32,7 +32,9 @@ class EditModalAction extends Action
 
         if ($this->successJs)
             $this->_return = "<script>{$this->successJs}</script>";
-        $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
+        else
+            $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
+        
         parent::init();
     }
 
