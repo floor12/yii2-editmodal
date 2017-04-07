@@ -18,9 +18,14 @@ class DeleteAction extends Action
     public $model;
     public $message = 'Объект удален';
     public $logic;
+    public $access = true;
+
 
     public function run()
     {
+        if (!$this->access)
+            throw new ForbiddenHttpException();
+
         $id = \Yii::$app->request->getBodyParams('id');
 
         if (!$id)
