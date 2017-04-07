@@ -18,7 +18,6 @@ class EditModalAction extends Action
 {
     public $model;
     public $message = 'Объект сохранен';
-    public $scenario = null;
     public $view = '_form';
     public $logic;
     public $access = true;
@@ -31,11 +30,14 @@ class EditModalAction extends Action
         if (!$this->access)
             throw new ForbiddenHttpException();
 
-        $this->_return = "<script>{$this->successJs} hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
+        if ($this->successJs)
+            $this->_return = "<script>{$this->successJs}</script>";
+        $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
         parent::init();
     }
 
-    public function run($id)
+    public
+    function run($id)
     {
         if (!$id)
             $model = new $this->model;
@@ -46,8 +48,6 @@ class EditModalAction extends Action
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
-        if ($this->scenario)
-            $model->setScenario($this->scenario);
         if (!$this->logic && ($model->load(Yii::$app->request->post())) && $model->save()) {
             return $this->_return;
         }
