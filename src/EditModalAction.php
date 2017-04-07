@@ -22,6 +22,7 @@ class EditModalAction extends Action
     public $logic;
     public $access = true;
     public $successJs;
+    public $scenario;
 
     private $_return;
 
@@ -34,7 +35,7 @@ class EditModalAction extends Action
             $this->_return = "<script>{$this->successJs}</script>";
         else
             $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
-        
+
         parent::init();
     }
 
@@ -50,6 +51,8 @@ class EditModalAction extends Action
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
+        if ($this->scenario)
+            $model->setScenario($this->scenario);
         if (!$this->logic && ($model->load(Yii::$app->request->post())) && $model->save()) {
             return $this->_return;
         }
