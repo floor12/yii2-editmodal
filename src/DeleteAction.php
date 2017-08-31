@@ -26,16 +26,15 @@ class DeleteAction extends Action
         if (!$this->access)
             throw new ForbiddenHttpException();
 
-        $id = \Yii::$app->request->getBodyParams('id');
+        $params = \Yii::$app->request->getBodyParams();
 
-        if (!$id)
-            $model = new $this->model;
-        else {
+        if (isset($params['id']) && $params['id']) {
             $classname = $this->model;
-            $model = $classname::findOne($id);
+            $model = $classname::findOne($params['id']);
             if (!$model)
-                throw new NotFoundHttpException("Object with id {$id} not found");
-        }
+                throw new NotFoundHttpException("Object with id {$params['id']} not found");
+        } else
+            $model = new $this->model;
 
         if ($this->logic) {
             if (\Yii::createObject($this->logic, [$model, \Yii::$app->user->identity])->execute())
