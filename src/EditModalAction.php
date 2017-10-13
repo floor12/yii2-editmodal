@@ -22,6 +22,7 @@ class EditModalAction extends Action
     public $logic;
     public $access = true;
     public $successJs;
+    public $success;
     public $scenario;
 
     private $_return;
@@ -31,11 +32,14 @@ class EditModalAction extends Action
         if (!$this->access)
             throw new ForbiddenHttpException();
 
-        if ($this->successJs)
-            $this->_return = "<script>{$this->successJs}</script>";
-        else
-            $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
-
+        if ($this->success)
+            $this->_return = $this->success;
+        else {
+            if ($this->successJs)
+                $this->_return = "<script>{$this->successJs}</script>";
+            else
+                $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
+        }
         parent::init();
     }
 
