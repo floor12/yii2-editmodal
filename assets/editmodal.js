@@ -21,7 +21,7 @@ function offPageLeaving() {
 $(document).ready(function () {
     infoBlock = $('<div>').attr('id', 'info-list').appendTo($('body'));
 
-    modal = '<div class="modal fade" id="modaledit-modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"></div></div></div>';
+    modal = '<div class="modal fade" id="modaledit-modal" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"></div></div></div>';
     $(modal).appendTo($('body'));
 });
 
