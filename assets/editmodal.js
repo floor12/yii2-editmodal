@@ -69,6 +69,10 @@ function info(content, type) {
 // form staff
 
 function showForm(route, params) {
+
+    if (route.substr(0, 1) == '/')
+        route = route.substr(1, route.length);
+
     if (!params)
         data = {id: 0};
     else {
