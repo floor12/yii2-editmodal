@@ -116,15 +116,26 @@ function hideFormModal() {
     $('#modaledit-modal div.modal-content').html("");
 }
 
-function cancelModalEdit() {onPageLeaving();
-    offPageLeaving();    
+function cancelModalEdit() {
+    onPageLeaving();
+    offPageLeaving();
     info('Отмена редактирования. Изменения не сохранены.', 0);
     hideFormModal();
+}
 
+function cancelModalEditSilent() {
+    onPageLeaving();
+    offPageLeaving();
+    hideFormModal();
 }
 
 $(document).on('click', 'a.modaledit-disable', function () {
     cancelModalEdit()
+    return false;
+})
+
+$(document).on('click', 'a.modaledit-disable-silent', function () {
+    cancelModalEditSilent()
     return false;
 })
 
