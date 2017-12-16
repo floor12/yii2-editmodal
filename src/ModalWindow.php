@@ -53,6 +53,12 @@ class ModalWindow
         return "showForm('{$url}',{$data})";
     }
 
+    static function deleteItem($route, $id)
+    {
+        $url = Url::to($route);
+        return "deleteItem('{$url}',{$id})";
+    }
+
 
     public function hide()
     {

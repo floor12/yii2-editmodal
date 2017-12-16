@@ -92,6 +92,10 @@ function showForm(route, params) {
 }
 
 function deleteItem(route, id) {
+
+    if (route.substr(0, 1) == '/')
+        route = route.substr(1, route.length);
+
     if (confirm("Вы уверены что хотите удалить?"))
         $.ajax({
             data: {id: id},
