@@ -10,6 +10,7 @@ namespace floor12\editmodal;
 
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 class ModalWindow
 {
@@ -19,6 +20,13 @@ class ModalWindow
     const TYPE_ERROR = 2;
 
     private $_return;
+
+    static function showForm($route, $params)
+    {
+        $url = Url::to($route);
+        $data = json_encode($params);
+        return "showForm('{$url}',{$data})";
+    }
 
 
     public function hide()
