@@ -21,6 +21,31 @@ class ModalWindow
 
     private $_return;
 
+    static function ajaxBtn($route, $data = null, $content, $title = null, $container = null, $confirmText = null, $class = null, $info)
+    {
+        $params = [
+            'title' => $title,
+            'onclick' => "
+            if (confirm('{$confirmText}')) {
+                  $.ajax({
+                    'method':'POST',
+                    'dataType':'json',
+                    'url':'" . Url::to($route) . "',
+                    'data':" . json_encode($data) . ",
+                    'success':function(){
+                        info('{$info}',1);
+                        $.pjax.reload({container:'{$container}'});
+                    },
+                    error: function(response){
+                        info(response.responseJSON.message,2);
+                    }
+                });
+             }"
+        ];
+        $params['class'] = $class;
+        return Html::a($content, null, $params);
+    }
+
     static function showForm($route, $params)
     {
         $url = Url::to($route);
