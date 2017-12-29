@@ -21,7 +21,7 @@ function offPageLeaving() {
 $(document).ready(function () {
     infoBlock = $('<div>').attr('id', 'info-list').appendTo($('body'));
 
-    modal = '<div class="modal fade" id="modaledit-modal" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"></div></div></div>';
+    modal = '<div class="modal fade" id="modaledit-modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"></div></div></div>';
     $(modal).appendTo($('body'));
 });
 
@@ -69,10 +69,6 @@ function info(content, type) {
 // form staff
 
 function showForm(route, params) {
-
-    if (route.substr(0, 1) == '/')
-        route = route.substr(1, route.length);
-
     if (!params)
         data = {id: 0};
     else {
@@ -82,20 +78,29 @@ function showForm(route, params) {
             data = params;
     }
     info('Загрузка формы...', 0)
-    $.get('/' + route, data, function (response) {
-        $('#modaledit-modal div.modal-content').html("");
-        $('#modaledit-modal').modal({backdrop: 'static'});
-        $('#modaledit-modal div.modal-content').html(response);
-        onPageLeaving();
-        info('Форма загружена.', 0)
-    })
+
+    $.ajax({
+        url: '/' + route,
+        data: data,
+        success: function (response) {
+            $('#modaledit-modal div.modal-content').html("");
+            $('#modaledit-modal').modal({backdrop: 'static'});
+            $('#modaledit-modal div.modal-content').html(response);
+            onPageLeaving();
+        },
+        error: function (response) {
+            console.log(typeof(response.responseJSON) === 'object')
+            if (typeof(response.responseJSON) === 'object')
+                message = response.responseJSON.message;
+            else
+                message = response.statusText;
+            info(response.status + ': ' + message, 2)
+        }
+    });
+
 }
 
 function deleteItem(route, id) {
-
-    if (route.substr(0, 1) == '/')
-        route = route.substr(1, route.length);
-
     if (confirm("Вы уверены что хотите удалить?"))
         $.ajax({
             data: {id: id},
@@ -103,12 +108,16 @@ function deleteItem(route, id) {
             url: '/' + route,
             success: function (response) {
                 hideFormModal();
-
                 $.pjax.reload({container: "#items"});
                 info(response, 1);
             },
-            error: function () {
-                info('Ошибка удаления объекта.', 2)
+            error: function (response) {
+                console.log(typeof(response.responseJSON) === 'object')
+                if (typeof(response.responseJSON) === 'object')
+                    message = response.responseJSON.message;
+                else
+                    message = response.statusText;
+                info(response.status + ': ' + message, 2)
             }
         })
     return false;
@@ -125,21 +134,11 @@ function cancelModalEdit() {
     offPageLeaving();
     info('Отмена редактирования. Изменения не сохранены.', 0);
     hideFormModal();
-}
 
-function cancelModalEditSilent() {
-    onPageLeaving();
-    offPageLeaving();
-    hideFormModal();
 }
 
 $(document).on('click', 'a.modaledit-disable', function () {
     cancelModalEdit()
-    return false;
-})
-
-$(document).on('click', 'a.modaledit-disable-silent', function () {
-    cancelModalEditSilent()
     return false;
 })
 
