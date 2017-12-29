@@ -11,7 +11,8 @@ namespace floor12\editmodal;
 
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
-use \Yii;
+use yii\web\ForbiddenHttpException;
+use yii\web\BadRequestHttpException;
 
 class DeleteAction extends Action
 {

@@ -89,12 +89,7 @@ function showForm(route, params) {
             onPageLeaving();
         },
         error: function (response) {
-            console.log(typeof(response.responseJSON) === 'object')
-            if (typeof(response.responseJSON) === 'object')
-                message = response.responseJSON.message;
-            else
-                message = response.statusText;
-            info(response.status + ': ' + message, 2)
+            processError(response)
         }
     });
 
@@ -112,13 +107,9 @@ function deleteItem(route, id) {
                 info(response, 1);
             },
             error: function (response) {
-                console.log(typeof(response.responseJSON) === 'object')
-                if (typeof(response.responseJSON) === 'object')
-                    message = response.responseJSON.message;
-                else
-                    message = response.statusText;
-                info(response.status + ': ' + message, 2)
+                processError(response)
             }
+
         })
     return false;
 }
@@ -146,10 +137,49 @@ $(document).on('submit', 'form.modaledit-form', function () {
     form = $(this);
     data = form.serialize();
     info('Отправка данных...', 0)
-    $.post($(this).attr('action'), data, function (response) {
-        $('#modaledit-modal div.modal-content').html("");
-        $('#modaledit-modal div.modal-content').html(response);
-        offPageLeaving();
-    })
+
+    $.ajax({
+        url: $(this).attr('action'),
+        method: $(this).attr('method'),
+        data: data,
+        success: function (response) {
+            $('#modaledit-modal div.modal-content').html("");
+            $('#modaledit-modal div.modal-content').html(response);
+            offPageLeaving();
+        },
+        error: function (response) {
+            processError(response)
+        }
+    });
+
     return false;
 })
+
+
+function processError(response) {
+    if (typeof(response.responseJSON) === 'object') {
+        info(response.status + ': ' + response.responseJSON.message, 2)
+        return true;
+    }
+
+    if (response.responseText.length > 5) {
+
+        if (response.responseText.length < 40) {
+            info(response.responseText, 2);
+            return true;
+        }
+
+        if (response.responseText.length > 40) {
+            matches = response.responseText.match(/with message (.+)/);
+            if (matches) {
+                info(response.status + ': ' + matches[1].replace("&#039;", ""), 2);
+                return true;
+            }
+        }
+
+    }
+
+    info(response.status + ': ' + response.statusText, 2);
+
+
+}

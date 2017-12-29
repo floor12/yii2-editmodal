@@ -10,7 +10,9 @@ namespace floor12\editmodal;
 
 
 use yii\base\Action;
+use yii\helpers\Html;
 use yii\web\ForbiddenHttpException;
+use yii\web\JsExpression;
 use yii\web\NotFoundHttpException;
 use \Yii;
 
@@ -22,7 +24,6 @@ class EditModalAction extends Action
     public $logic;
     public $access = true;
     public $successJs;
-    public $success;
     public $scenario;
 
     private $_return;
@@ -32,14 +33,14 @@ class EditModalAction extends Action
         if (!$this->access)
             throw new ForbiddenHttpException();
 
-        if ($this->success)
-            $this->_return = $this->success;
-        else {
-            if ($this->successJs)
-                $this->_return = "<script>{$this->successJs}</script>";
-            else
-                $this->_return = "<script>hideFormModal();$.pjax.reload({container:\"#items\"});info('{$this->message}', 1);</script>";
-        }
+        if ($this->successJs)
+            $this->_return = Html::tag('script', $this->successJs);
+        else
+            $this->_return = \Yii::createObject(ModalWindow::class, [])
+                ->reloadContainer('#items')
+                ->info($this->message, ModalWindow::TYPE_OK)
+                ->hide()
+                ->run();
         parent::init();
     }
 
