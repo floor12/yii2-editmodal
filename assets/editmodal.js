@@ -69,6 +69,11 @@ function info(content, type) {
 // form staff
 
 function showForm(route, params) {
+
+    if (route.substring(0, 1) != '/')
+        route = '/' + route;
+
+
     if (!params)
         data = {id: 0};
     else {
@@ -80,7 +85,7 @@ function showForm(route, params) {
     info('Загрузка формы...', 0)
 
     $.ajax({
-        url: '/' + route,
+        url: route,
         data: data,
         success: function (response) {
             $('#modaledit-modal div.modal-content').html("");
@@ -96,11 +101,15 @@ function showForm(route, params) {
 }
 
 function deleteItem(route, id) {
+
+    if (route.substring(0, 1) != '/')
+        route = '/' + route;
+
     if (confirm("Вы уверены что хотите удалить?"))
         $.ajax({
             data: {id: id},
             method: 'DELETE',
-            url: '/' + route,
+            url: route,
             success: function (response) {
                 hideFormModal();
                 $.pjax.reload({container: "#items"});
