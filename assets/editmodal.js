@@ -178,8 +178,13 @@ function processError(response) {
             return true;
         }
 
+
         if (response.responseText.length > 40) {
             matches = response.responseText.match(/with message (.+)/);
+
+            if (!matches)
+                matches = response.responseText.match(/\): (.+)/);
+
             if (matches) {
                 info(response.status + ': ' + matches[1].replace("&#039;", ""), 2);
                 return true;
