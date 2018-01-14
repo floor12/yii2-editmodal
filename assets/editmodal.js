@@ -137,8 +137,19 @@ function cancelModalEdit() {
 
 }
 
+function cancelModalEditSilent() {
+    offPageLeaving();
+    hideFormModal();
+
+}
+
 $(document).on('click', 'a.modaledit-disable', function () {
     cancelModalEdit()
+    return false;
+})
+
+$(document).on('click', 'a.modaledit-disable-silent', function () {
+    cancelModalEditSilent()
     return false;
 })
 
