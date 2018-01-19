@@ -37,7 +37,7 @@ class ModalWindow
                         $.pjax.reload({container:'{$container}'});
                     },
                     error: function(response){
-                        info(response.responseJSON.message,2);
+                        processError(response);
                     }
                 });
              }"
