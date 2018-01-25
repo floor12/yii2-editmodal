@@ -111,7 +111,7 @@ function deleteItem(route, id) {
             method: 'DELETE',
             url: route,
             success: function (response) {
-                hideFormModal();
+                cancelModalEditSilent();
                 $.pjax.reload({container: "#items"});
                 info(response, 1);
             },
