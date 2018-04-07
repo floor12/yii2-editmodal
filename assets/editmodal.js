@@ -155,12 +155,15 @@ $(document).on('click', 'a.modaledit-disable-silent', function () {
 
 $(document).on('submit', 'form.modaledit-form', function () {
     form = $(this);
-    data = form.serialize();
+    data = new FormData(this);
     info('Отправка данных...', 0)
 
     $.ajax({
         url: $(this).attr('action'),
         method: $(this).attr('method'),
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
         data: data,
         success: function (response) {
             $('#modaledit-modal div.modal-content').html("");
@@ -173,8 +176,6 @@ $(document).on('submit', 'form.modaledit-form', function () {
     });
 
     return false;
-})
-
 
 function processError(response) {
     if (typeof(response.responseJSON) === 'object') {
