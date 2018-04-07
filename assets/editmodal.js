@@ -176,6 +176,7 @@ $(document).on('submit', 'form.modaledit-form', function () {
     });
 
     return false;
+})
 
 function processError(response) {
     if (typeof(response.responseJSON) === 'object') {
