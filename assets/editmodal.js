@@ -126,6 +126,10 @@ function deleteItem(route, id) {
 
 function hideFormModal() {
     $('#modaledit-modal').modal('hide');
+    $('body').removeClass('modal-open'); //bugfix
+    $('.modal-backdrop').fadeOut(150, function () {
+        $('.modal-backdrop').remove();
+    }) //bugfix
     $('#modaledit-modal div.modal-content').html("");
 }
 
