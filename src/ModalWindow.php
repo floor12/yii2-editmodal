@@ -75,9 +75,16 @@ class ModalWindow
 
     public function reloadContainer($container_name)
     {
-        $this->_return .= "$.pjax.reload({container:\"{$container_name}\"});";
+        $this->_return .= "if ($(\"{$container_name}\").length > 0) $.pjax.reload({container:\"{$container_name}\"});";
         return $this;
     }
+
+    public function runFunction($function)
+    {
+        $this->_return .= "{$function};";
+        return $this;
+    }
+
 
     public function run()
     {
