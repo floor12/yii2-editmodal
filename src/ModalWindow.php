@@ -50,7 +50,7 @@ class ModalWindow
     {
         $url = Url::to($route);
         $data = json_encode($params);
-        return "showForm('{$url}',{$data})";
+        return 'showForm("' . $url . '",' . $data . ')';
     }
 
     static function deleteItem($route, $id)
