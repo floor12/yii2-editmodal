@@ -25,6 +25,7 @@ class EditModalAction extends Action
     public $access = true;
     public $successJs;
     public $scenario;
+    public $viewParams = [];
 
     private $_return;
 
@@ -67,6 +68,7 @@ class EditModalAction extends Action
                 return $this->_return;
         }
 
-        return $this->controller->renderAjax($this->view, ['model' => $model]);
+        $this->viewParams['model'] = $model;
+        return $this->controller->renderAjax($this->view, $this->viewParams);
     }
 }
