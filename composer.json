@@ -20,7 +20,8 @@
   "require": {
     "yiisoft/yii2": "~2.0.9",
     "yiisoft/yii2-jui": "*",
-    "rmrevin/yii2-fontawesome": "~2.15"
+    "rmrevin/yii2-fontawesome": "~2.15",
+    "floor12/yii2-notification": "~2.15"
   },
   "autoload": {
     "psr-4": {
