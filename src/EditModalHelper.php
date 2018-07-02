@@ -30,7 +30,7 @@ class EditModalHelper
     {
         $path = Url::toRoute($path);
         AssetBundle::register(Yii::$app->getView());
-        EditmodalAsset::register(Yii::$app->getView());
+        EditModalAsset::register(Yii::$app->getView());
         return Html::a(FontAwesome::icon('pencil'), null, [
             'onclick' => "showForm('{$path}',{$id})",
             'title' => 'редактировать',
@@ -49,7 +49,7 @@ class EditModalHelper
     {
         $path = Url::toRoute($path);
         AssetBundle::register(Yii::$app->getView());
-        EditmodalAsset::register(Yii::$app->getView());
+        EditModalAsset::register(Yii::$app->getView());
         return Html::a(FontAwesome::icon('trash'), null, [
             'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
             'title' => 'удалить',

@@ -4,7 +4,7 @@ namespace floor12\editmodal;
 
 use yii\web\AssetBundle;
 
-class EditmodalAsset extends AssetBundle
+class EditModalAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/floor12/yii2-editmodal/assets/';
     public $css = [];
