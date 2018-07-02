@@ -8,7 +8,6 @@
 
 namespace floor12\editmodal;
 
-
 use yii\base\Action;
 use yii\helpers\Html;
 use yii\web\ForbiddenHttpException;
@@ -45,14 +44,13 @@ class EditModalAction extends Action
         parent::init();
     }
 
-    public
-    function run($id)
+    public function run($id)
     {
         if (!$id)
             $model = new $this->model;
         else {
             $classname = $this->model;
-            $model = $classname::findOne($id);
+            $model = $classname::findOne(intval($id));
             if (!$model)
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }

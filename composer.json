@@ -21,7 +21,7 @@
     "yiisoft/yii2": "~2.0.9",
     "yiisoft/yii2-jui": "*",
     "rmrevin/yii2-fontawesome": "~2.15",
-    "floor12/yii2-notification": "dev-master"
+    "floor12/yii2-notification": "~0.1.0"
   },
   "autoload": {
     "psr-4": {

@@ -31,7 +31,7 @@ class DeleteAction extends Action
 
         if (isset($params['id']) && $params['id']) {
             $classname = $this->model;
-            $model = $classname::findOne($params['id']);
+            $model = $classname::findOne(intval($params['id']));
             if (!$model)
                 throw new NotFoundHttpException("Object with id {$params['id']} not found");
         } else

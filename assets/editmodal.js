@@ -3,17 +3,17 @@
  */
 
 
-//page leaving prevent functioncs
+//page leaving prevent functions
 
 function onPageLeaving() {
     window.onbeforeunload = function () {
-        return "Вы не сохранили форму."
-    }
+        return false;
+    };
 }
 
 function offPageLeaving() {
     window.onbeforeunload = function () {
-    }
+    };
 }
 
 //prepearing page: make modal block
@@ -34,31 +34,32 @@ $.ajaxSetup({
 
 function showForm(route, params) {
 
-    if (route.substring(0, 1) != '/')
+    if (route.substring(0, 1) != '/') {
         route = '/' + route;
-
-
-    if (!params)
-        data = {id: 0};
-    else {
-        if ($.isNumeric(params))
-            data = {id: params};
-        else
-            data = params;
     }
-    info('Загрузка формы...', 0)
+
+    if (!params) {
+        data = {id: 0};
+    } else {
+        if ($.isNumeric(params)) {
+            data = {id: params};
+        } else {
+            data = params;
+        }
+    }
+    info('Загрузка формы...', 0);
 
     $.ajax({
         url: route,
         data: data,
         success: function (response) {
-            $('#modaledit-modal div.modal-content').html("");
+            $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal').modal({backdrop: 'static'});
             $('#modaledit-modal div.modal-content').html(response);
             onPageLeaving();
         },
         error: function (response) {
-            processError(response)
+            processError(response);
         }
     });
 
@@ -66,24 +67,25 @@ function showForm(route, params) {
 
 function deleteItem(route, id) {
 
-    if (route.substring(0, 1) != '/')
+    if (route.substring(0, 1) != '/') {
         route = '/' + route;
+    }
 
-    if (confirm("Вы уверены что хотите удалить?"))
+    if (confirm('Вы уверены что хотите удалить?')) {
         $.ajax({
             data: {id: id},
             method: 'DELETE',
             url: route,
             success: function (response) {
                 cancelModalEditSilent();
-                $.pjax.reload({container: "#items"});
+                $.pjax.reload({container: '#items'});
                 info(response, 1);
             },
             error: function (response) {
-                processError(response)
+                processError(response);
             }
-
-        })
+        });
+    }
     return false;
 }
 
@@ -93,8 +95,8 @@ function hideFormModal() {
     $('body').removeClass('modal-open'); //bugfix
     $('.modal-backdrop').fadeOut(150, function () {
         $('.modal-backdrop').remove();
-    }) //bugfix
-    $('#modaledit-modal div.modal-content').html("");
+    }); //bugfix
+    $('#modaledit-modal div.modal-content').html('');
 }
 
 function cancelModalEdit() {
@@ -112,19 +114,19 @@ function cancelModalEditSilent() {
 }
 
 $(document).on('click', 'a.modaledit-disable', function () {
-    cancelModalEdit()
+    cancelModalEdit();
     return false;
-})
+});
 
 $(document).on('click', 'a.modaledit-disable-silent', function () {
-    cancelModalEditSilent()
+    cancelModalEditSilent();
     return false;
-})
+});
 
 $(document).on('submit', 'form.modaledit-form', function () {
     form = $(this);
     data = new FormData(this);
-    info('Отправка данных...', 0)
+    info('Отправка данных...', 0);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -134,21 +136,21 @@ $(document).on('submit', 'form.modaledit-form', function () {
         contentType: false,
         data: data,
         success: function (response) {
-            $('#modaledit-modal div.modal-content').html("");
+            $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal div.modal-content').html(response);
             offPageLeaving();
         },
         error: function (response) {
-            processError(response)
+            processError(response);
         }
     });
 
     return false;
-})
+});
 
 function processError(response) {
     if (typeof(response.responseJSON) === 'object') {
-        info(response.status + ': ' + response.responseJSON.message, 2)
+        info(response.status + ': ' + response.responseJSON.message, 2);
         return true;
     }
 
@@ -163,18 +165,16 @@ function processError(response) {
         if (response.responseText.length > 40) {
             matches = response.responseText.match(/with message (.+)/);
 
-            if (!matches)
+            if (!matches) {
                 matches = response.responseText.match(/\): (.+)/);
+            }
 
             if (matches) {
-                info(response.status + ': ' + matches[1].replace("&#039;", ""), 2);
+                info(response.status + ': ' + matches[1].replace('&#039;', ''), 2);
                 return true;
             }
         }
 
     }
-
     info(response.status + ': ' + response.statusText, 2);
-
-
 }
