@@ -1,5 +1,10 @@
 # yii2-editmodal
 
+[![Latest Stable Version](https://poser.pugx.org/floor12/yii2-editmodal/v/stable)](https://packagist.org/packages/floor12/yii2-editmodal)
+[![Latest Unstable Version](https://poser.pugx.org/floor12/yii2-editmodal/v/unstable)](https://packagist.org/packages/floor12/yii2-editmodal)
+[![License](https://poser.pugx.org/floor12/yii2-editmodal/license)](https://packagist.org/packages/floor12/yii2-editmodal)
+[![Total Downloads](https://poser.pugx.org/floor12/yii2-editmodal/downloads)](https://packagist.org/packages/floor12/yii2-editmodal)
+
 Это набор классов, позволяющих быстро организовать редактирование объектов в модальном окне Bootstrap`а.
 
 В поставку входят (примеры использования будут ниже):
