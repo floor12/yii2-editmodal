@@ -13,6 +13,7 @@ class EditModalAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
+        'yii\web\JqueryAsset',
         'yii\jui\JuiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
