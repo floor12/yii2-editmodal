@@ -54,7 +54,7 @@ function showForm(route, params) {
         data: data,
         success: function (response) {
             $('#modaledit-modal div.modal-content').html('');
-            $('#modaledit-modal').modal({backdrop: 'static'});
+            $('#modaledit-modal').modal({keyboard: false, backdrop: 'static'});
             $('#modaledit-modal div.modal-content').html(response);
             onPageLeaving();
         },
