@@ -56,6 +56,7 @@ function showForm(route, params) {
             $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal').modal({keyboard: false, backdrop: 'static'});
             $('#modaledit-modal div.modal-content').html(response);
+            $('.dropdown-toggle').dropdown();
             onPageLeaving();
         },
         error: function (response) {
@@ -80,6 +81,7 @@ function deleteItem(route, id) {
                 cancelModalEditSilent();
                 $.pjax.reload({container: '#items'});
                 info(response, 1);
+                $('.dropdown-toggle').dropdown();
             },
             error: function (response) {
                 processError(response);
@@ -97,6 +99,7 @@ function hideFormModal() {
         $('.modal-backdrop').remove();
     }); //bugfix
     $('#modaledit-modal div.modal-content').html('');
+    $('.dropdown-toggle').dropdown();
 }
 
 function cancelModalEdit() {
