@@ -9,7 +9,9 @@
 namespace floor12\editmodal;
 
 
+use yii\db\ActiveRecordInterface;
 use yii\web\IdentityInterface;
+
 
 interface LogicInterface
 {
@@ -19,7 +21,7 @@ interface LogicInterface
      * @param array $data
      * @param IdentityInterface $identity
      */
-    public function __construct($model, array $data, IdentityInterface $identity);
+    public function __construct(ActiveRecordInterface $model, array $data, IdentityInterface $identity);
 
     /**
      * @return bool
