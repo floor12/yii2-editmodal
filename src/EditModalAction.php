@@ -44,7 +44,7 @@ class EditModalAction extends Action
         parent::init();
     }
 
-    public function run($id)
+    public function run($id = 0)
     {
         if (!$id)
             $model = new $this->model;
