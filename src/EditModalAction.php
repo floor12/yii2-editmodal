@@ -8,12 +8,11 @@
 
 namespace floor12\editmodal;
 
+use Yii;
 use yii\base\Action;
 use yii\helpers\Html;
 use yii\web\ForbiddenHttpException;
-use yii\web\JsExpression;
 use yii\web\NotFoundHttpException;
-use \Yii;
 
 class EditModalAction extends Action
 {
@@ -23,29 +22,17 @@ class EditModalAction extends Action
     public $logic;
     public $access = true;
     public $successJs;
+    public $successHtml;
     public $scenario;
     public $viewParams = [];
 
     private $_return;
 
-    public function init()
+    public function run($id = 0)
     {
         if (!$this->access)
             throw new ForbiddenHttpException();
 
-        if ($this->successJs)
-            $this->_return = Html::tag('script', $this->successJs);
-        else
-            $this->_return = \Yii::createObject(ModalWindow::class, [])
-                ->reloadContainer('#items')
-                ->info($this->message, ModalWindow::TYPE_OK)
-                ->hide()
-                ->run();
-        parent::init();
-    }
-
-    public function run($id = 0)
-    {
         if (!$id)
             $model = new $this->model;
         else {
@@ -54,6 +41,19 @@ class EditModalAction extends Action
             if (!$model)
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
+
+        if ($this->successHtml)
+            $this->_return = call_user_func($this->successHtml, $model);
+        elseif ($this->successJs)
+            $this->_return = Html::tag('script', $this->successJs);
+        else
+            $this->_return = \Yii::createObject(ModalWindow::class, [])
+                ->reloadContainer('#items')
+                ->info($this->message, ModalWindow::TYPE_OK)
+                ->hide()
+                ->run();
+        parent::init();
+
 
         if ($this->scenario)
             $model->setScenario($this->scenario);
