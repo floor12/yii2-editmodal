@@ -27,6 +27,7 @@ class EditModalAction extends Action
     public $viewParams = [];
 
     private $_return;
+    private $_modelObject;
 
     public function run($id = 0)
     {
@@ -34,16 +35,36 @@ class EditModalAction extends Action
             throw new ForbiddenHttpException();
 
         if (!$id)
-            $model = new $this->model;
+            $this->_modelObject = new $this->model;
         else {
             $classname = $this->model;
-            $model = $classname::findOne(intval($id));
-            if (!$model)
+            $this->_modelObject = $classname::findOne(intval($id));
+            if (!$this->_modelObject)
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
+        if ($this->scenario)
+            $this->_modelObject->setScenario($this->scenario);
+
+
+        if (!$this->logic && ($this->_modelObject->load(Yii::$app->request->post())) && $this->_modelObject->save()) {
+            return $this->getReturnString();
+        }
+
+        if ($this->logic && \Yii::$app->request->isPost) {
+            if (\Yii::createObject($this->logic, [$this->_modelObject, \Yii::$app->request->post(), \Yii::$app->user->identity])->execute())
+                return $this->getReturnString();
+        }
+
+        $this->viewParams['model'] = $this->_modelObject;
+        return $this->controller->renderAjax($this->view, $this->viewParams);
+    }
+
+
+    protected function getReturnString()
+    {
         if ($this->successHtml)
-            $this->_return = call_user_func($this->successHtml, $model);
+            $this->_return = call_user_func($this->successHtml, $this->_modelObject);
         elseif ($this->successJs)
             $this->_return = Html::tag('script', $this->successJs);
         else
@@ -52,21 +73,7 @@ class EditModalAction extends Action
                 ->info($this->message, ModalWindow::TYPE_OK)
                 ->hide()
                 ->run();
-        parent::init();
-
-
-        if ($this->scenario)
-            $model->setScenario($this->scenario);
-        if (!$this->logic && ($model->load(Yii::$app->request->post())) && $model->save()) {
-            return $this->_return;
-        }
-
-        if ($this->logic && \Yii::$app->request->isPost) {
-            if (\Yii::createObject($this->logic, [$model, \Yii::$app->request->post(), \Yii::$app->user->identity])->execute())
-                return $this->_return;
-        }
-
-        $this->viewParams['model'] = $model;
-        return $this->controller->renderAjax($this->view, $this->viewParams);
+        return $this->_return;
     }
+
 }
