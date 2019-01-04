@@ -8,11 +8,11 @@
 
 namespace floor12\editmodal;
 
-use rmrevin\yii\fontawesome\FontAwesome;
 use rmrevin\yii\fontawesome\AssetBundle;
+use rmrevin\yii\fontawesome\FontAwesome;
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use \Yii;
 
 /** Helper class to show control elements.
  * Class EditModalHelper
@@ -22,7 +22,7 @@ class EditModalHelper
 {
     /** Return button to show modal window
      * @param string $path Modal edit action route
-     * @param integer $id  Object ID
+     * @param integer $id Object ID
      * @param string $class Object Class
      * @return string Html code
      */
@@ -62,11 +62,13 @@ class EditModalHelper
      * @param int|array $params Some params
      * @return string JS code
      */
-    public static function showForm($route, $params = 0)
+    public static function showForm($route, $params = 0, $modalParams = null)
     {
         $url = Url::to($route);
         $data = json_encode($params);
-        return 'showForm("' . $url . '",' . $data . ')';
+        if ($modalParams !== null)
+            $modalParams = json_encode($modalParams);
+        return 'showForm("' . $url . '",' . $data . ',' . $modalParams . ')';
     }
 
     /** Return Javascript code to delete object.

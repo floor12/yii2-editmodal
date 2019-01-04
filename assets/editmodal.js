@@ -32,7 +32,7 @@ $.ajaxSetup({
 
 // form staff
 
-function showForm(route, params) {
+function showForm(route, params, modalParams) {
 
     if (route.substring(0, 1) != '/') {
         route = '/' + route;
@@ -49,12 +49,15 @@ function showForm(route, params) {
     }
     info('Загрузка формы...', 0);
 
+    if (!modalParams)
+        modalParams = {keyboard: false, backdrop: 'static'};
+
     $.ajax({
         url: route,
         data: data,
         success: function (response) {
             $('#modaledit-modal div.modal-content').html('');
-            $('#modaledit-modal').modal({keyboard: false, backdrop: 'static'});
+            $('#modaledit-modal').modal(modalParams);
             $('#modaledit-modal div.modal-content').html(response);
             $('.dropdown-toggle').dropdown();
             onPageLeaving();
@@ -152,7 +155,7 @@ $(document).on('submit', 'form.modaledit-form', function () {
 });
 
 function processError(response) {
-    if (typeof(response.responseJSON) === 'object') {
+    if (typeof (response.responseJSON) === 'object') {
         info(response.status + ': ' + response.responseJSON.message, 2);
         return true;
     }
