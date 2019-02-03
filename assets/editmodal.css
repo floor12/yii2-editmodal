@@ -1,0 +1,10 @@
+
+#modaledit-modal div.modal-dialog {
+    transition: all 0.2s ease;
+}
+
+#modaledit-modal div.modal-dialog.fullscreened {
+    width: 98%;
+    max-width: 1640px;
+    margin-top: 10px;
+}

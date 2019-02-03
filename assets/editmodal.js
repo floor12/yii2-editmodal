@@ -56,6 +56,8 @@ function showForm(route, params, modalParams) {
         url: route,
         data: data,
         success: function (response) {
+            if ($('#modaledit-modal div.modal-dialog').hasClass('fullscreened'))
+                $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
             $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal').modal(modalParams);
             $('#modaledit-modal div.modal-content').html(response);
@@ -116,7 +118,13 @@ function cancelModalEdit() {
 function cancelModalEditSilent() {
     offPageLeaving();
     hideFormModal();
+}
 
+function editModalFullscreen() {
+    if ($('#modaledit-modal div.modal-dialog').hasClass('fullscreened'))
+        $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
+    else
+        $('#modaledit-modal div.modal-dialog').addClass('fullscreened');
 }
 
 $(document).on('click', 'a.modaledit-disable', function () {

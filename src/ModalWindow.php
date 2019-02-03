@@ -8,7 +8,7 @@
 
 namespace floor12\editmodal;
 
-
+use rmrevin\yii\fontawesome\FontAwesome;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -49,5 +49,21 @@ class ModalWindow
     public function run()
     {
         return Html::script($this->_return);
+    }
+
+    public static function btnFullscreen($class = null)
+    {
+        $options['class'] = $class ?: 'btn btn-default btn-sm';
+        $options['onclick'] = 'editModalFullscreen()';
+        $options['title'] = 'Развернуть';
+        return Html::a(FontAwesome::icon('expand-arrows'), null, array_merge($options, $options));
+    }
+
+    public static function btnClose($class = null, $silent = false)
+    {
+        $options['class'] = $class ?: 'btn btn-default btn-sm';
+        $options['onclick'] = $silent ? 'cancelModalEditSilent()' : 'cancelModalEdit()';
+        $options['title'] = 'Закрыть';
+        return Html::a(FontAwesome::icon('times'), null, array_merge($options, $options));
     }
 }
