@@ -105,6 +105,7 @@ function deleteItem(route, id) {
 
 
 function hideFormModal() {
+    autosaveClean();
     $('#modaledit-modal').modal('hide');
     $('body').removeClass('modal-open'); //bugfix
     $('.modal-backdrop').fadeOut(150, function () {
