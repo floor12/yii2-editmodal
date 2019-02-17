@@ -29,10 +29,12 @@ $.ajaxSetup({
     cache: true
 });
 
+var latestFormRoute;
 
 // form staff
 
 function showForm(route, params, modalParams) {
+
 
     if (route.substring(0, 1) != '/') {
         route = '/' + route;
@@ -47,6 +49,10 @@ function showForm(route, params, modalParams) {
             data = params;
         }
     }
+
+    latestFormRoute = route + encodeURIComponent(params);
+
+
     info('Загрузка формы...', 0);
 
     if (!modalParams)
@@ -62,6 +68,7 @@ function showForm(route, params, modalParams) {
             $('#modaledit-modal').modal(modalParams);
             $('#modaledit-modal div.modal-content').html(response);
             $('.dropdown-toggle').dropdown();
+            autosaveRestore();
             onPageLeaving();
         },
         error: function (response) {
@@ -152,6 +159,7 @@ $(document).on('submit', 'form.modaledit-form', function () {
         success: function (response) {
             $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal div.modal-content').html(response);
+            autosaveClean();
             offPageLeaving();
         },
         error: function (response) {
@@ -175,7 +183,6 @@ function processError(response) {
             return true;
         }
 
-
         if (response.responseText.length > 40) {
             matches = response.responseText.match(/with message (.+)/);
 
@@ -192,3 +199,32 @@ function processError(response) {
     }
     info(response.status + ': ' + response.statusText, 2);
 }
+
+
+function autosave() {
+    if ($('form.modaledit-form').length == 0)
+        return;
+    data = $('form.modaledit-form').serialize();
+    localStorage.setItem(latestFormRoute, data);
+    console.log('Form autosaved.');
+}
+
+function autosaveRestore() {
+    data = localStorage.getItem(latestFormRoute);
+    if (data !== null) {
+        if (confirm('Восстановить предыдущее значение формы?')) {
+            $.each(data.split('&'), function (index, elem) {
+                var vals = elem.split('=');
+                $("[name='" + decodeURIComponent(vals[0]) + "']").val(decodeURIComponent(vals[1]));
+            });
+        }
+    }
+}
+
+function autosaveClean() {
+    localStorage.removeItem(latestFormRoute);
+}
+
+setInterval(function () {
+    autosave();
+}, 3000);
