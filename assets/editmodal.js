@@ -135,6 +135,16 @@ function editModalFullscreen() {
         $('#modaledit-modal div.modal-dialog').addClass('fullscreened');
 }
 
+function editModalFullscreenOpen() {
+    if (!$('#modaledit-modal div.modal-dialog').hasClass('fullscreened'))
+        $('#modaledit-modal div.modal-dialog').addClass('fullscreened');
+}
+
+function editModalFullscreenClose() {
+    if ($('#modaledit-modal div.modal-dialog').hasClass('fullscreened'))
+        $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
+}
+
 $(document).on('click', 'a.modaledit-disable', function () {
     cancelModalEdit();
     return false;
