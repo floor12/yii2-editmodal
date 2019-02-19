@@ -215,9 +215,8 @@ function processError(response) {
 function autosave() {
     if ($('form.modaledit-form').length == 0)
         return;
-    data = $('form.modaledit-form').serialize();
+    var data = $('form.modaledit-form').serialize();
     localStorage.setItem(latestFormRoute, data);
-    console.log('Form autosaved.');
 }
 
 function autosaveRestore() {
@@ -226,7 +225,16 @@ function autosaveRestore() {
         if (confirm('Восстановить предыдущее значение формы?')) {
             $.each(data.split('&'), function (index, elem) {
                 var vals = elem.split('=');
-                $("[name='" + decodeURIComponent(vals[0]) + "']").val(decodeURIComponent(vals[1]));
+                var field = $("[name='" + decodeURIComponent(vals[0]) + "']");
+                var value = decodeURIComponent(vals[1]);
+                if (field.next('.note-editor').length > 0) {
+                    setTimeout(function () {
+                        field.summernote('reset');
+                        field.summernote('pasteHTML', value);
+                    }, 100)
+
+                } else
+                    field.val(value);
             });
         }
     }
