@@ -89,10 +89,11 @@ function deleteItem(route, id) {
             data: {id: id},
             method: 'DELETE',
             url: route,
+            dataType: 'json',
             success: function (response) {
                 cancelModalEditSilent();
-                $.pjax.reload({container: '#items'});
-                info(response, 1);
+                $.pjax.reload({container: response.container});
+                info(response.message, 1);
                 $('.dropdown-toggle').dropdown();
             },
             error: function (response) {

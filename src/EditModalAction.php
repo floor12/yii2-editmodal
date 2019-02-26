@@ -25,6 +25,7 @@ class EditModalAction extends Action
     public $successHtml;
     public $scenario;
     public $viewParams = [];
+    public $container = '#items';
 
     private $_return;
     private $_modelObject;
@@ -69,7 +70,7 @@ class EditModalAction extends Action
             $this->_return = Html::tag('script', $this->successJs);
         else
             $this->_return = \Yii::createObject(ModalWindow::class, [])
-                ->reloadContainer('#items')
+                ->reloadContainer($this->container)
                 ->info($this->message, ModalWindow::TYPE_OK)
                 ->hide()
                 ->run();

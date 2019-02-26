@@ -10,9 +10,9 @@ namespace floor12\editmodal;
 
 
 use yii\base\Action;
-use yii\web\NotFoundHttpException;
-use yii\web\ForbiddenHttpException;
 use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 class DeleteAction extends Action
 {
@@ -20,6 +20,7 @@ class DeleteAction extends Action
     public $message = 'Объект удален';
     public $logic;
     public $access = true;
+    public $container = '#items';
 
 
     public function run()
@@ -39,10 +40,10 @@ class DeleteAction extends Action
 
         if ($this->logic) {
             if (\Yii::createObject($this->logic, [$model, \Yii::$app->user->identity])->execute())
-                return $this->message;
+                return json_encode(['message' => $this->message, 'container' => $this->container]);
         } else {
             if ($model->delete())
-                return $this->message;
+                return json_encode(['message' => $this->message, 'container' => $this->container]);
             else
                 throw new BadRequestHttpException('Unable to delete');
         }
