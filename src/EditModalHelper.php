@@ -9,7 +9,6 @@
 namespace floor12\editmodal;
 
 use rmrevin\yii\fontawesome\AssetBundle;
-use rmrevin\yii\fontawesome\FontAwesome;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -31,11 +30,11 @@ class EditModalHelper
         $path = Url::toRoute($path);
         AssetBundle::register(Yii::$app->getView());
         EditModalAsset::register(Yii::$app->getView());
-        return Html::a(FontAwesome::icon('pencil'), null, [
-            'onclick' => "showForm('{$path}',{$id})",
-            'title' => 'редактировать',
-            'class' => $class
-        ]);
+        return " " . Html::a(IconHelper::PENCIL, null, [
+                'onclick' => "showForm('{$path}',{$id})",
+                'title' => 'редактировать',
+                'class' => $class
+            ]);
     }
 
     /** Return delete button
@@ -50,11 +49,11 @@ class EditModalHelper
         $path = Url::toRoute($path);
         AssetBundle::register(Yii::$app->getView());
         EditModalAsset::register(Yii::$app->getView());
-        return Html::a(FontAwesome::icon('trash'), null, [
-            'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
-            'title' => 'удалить',
-            'class' => $class
-        ]);
+        return " " . Html::a(IconHelper::TRASH, null, [
+                'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
+                'title' => 'удалить',
+                'class' => $class
+            ]);
     }
 
     /** Return Javascript code to show modal form.

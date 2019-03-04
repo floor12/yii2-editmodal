@@ -17,7 +17,6 @@ class EditModalAsset extends AssetBundle
         'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'rmrevin\yii\fontawesome\AssetBundle',
         'floor12\notification\NotificationAsset',
     ];
 
