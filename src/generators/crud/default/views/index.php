@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\crud\Generator */
 
+
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 
@@ -10,8 +11,9 @@ echo "<?php\n"; ?>
 
 
 use floor12\editmodal\EditModalHelper;
+use floor12\editmodal\IconHelper;
+use floor12\editmodal\EditModalColumn;
 use kartik\form\ActiveForm;
-use rmrevin\yii\fontawesome\FontAwesome;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -20,7 +22,7 @@ use yii\widgets\Pjax;
 $this->title = 'Список';
 $this->params['breadcrumbs'][] = $this->title;
 
-echo Html::a(FontAwesome::icon('plus') . ' Добавить объект', null, [
+echo Html::a(IconHelper::PLUS . ' Добавить объект', null, [
 'onclick' => EditModalHelper::showForm(['form'], 0),
 'class' => 'btn btn-primary btn-sm pull-right'
 ])
@@ -83,23 +85,9 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 }
 ?>
         [
-            'contentOptions' => ['style' => 'min-width:100px;', 'class' => 'text-right'],
-            'content' => function ($model) {
-
-                $html = Html::a(FontAwesome::icon('pencil'), NULL, [
-                        'title' => 'Редактировать объект',
-                        'onclick' => EditModalHelper::showForm(['form'], $model->id),
-                        'class' => 'btn btn-default btn-sm'])
-                    . ' ';
-
-                $html .= Html::a(FontAwesome::icon('trash'), NULL, [
-                        'title' => 'Удалить объект',
-                        'onclick' => EditModalHelper::deleteItem(['delete'], $model->id),
-                        'class' => 'btn btn-default btn-sm'
-                    ]) . ' ';
-                return $html;
-            },
-        ]
+        'class' => EditModalColumn::class,
+        'contentOptions' => ['style' => 'min-width:100px;', 'class' => 'text-right'],
+        ],
     ],
 ]);
 

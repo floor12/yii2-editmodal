@@ -8,7 +8,6 @@
 
 namespace floor12\editmodal;
 
-use rmrevin\yii\fontawesome\AssetBundle;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -28,7 +27,6 @@ class EditModalHelper
     public static function editBtn($path, $id, $class = "btn btn-default btn-sm")
     {
         $path = Url::toRoute($path);
-        AssetBundle::register(Yii::$app->getView());
         EditModalAsset::register(Yii::$app->getView());
         return " " . Html::a(IconHelper::PENCIL, null, [
                 'onclick' => "showForm('{$path}',{$id})",
@@ -47,7 +45,6 @@ class EditModalHelper
     public static function deleteBtn($path, $id, $class = "btn btn-default btn-sm", $container = '#items')
     {
         $path = Url::toRoute($path);
-        AssetBundle::register(Yii::$app->getView());
         EditModalAsset::register(Yii::$app->getView());
         return " " . Html::a(IconHelper::TRASH, null, [
                 'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
