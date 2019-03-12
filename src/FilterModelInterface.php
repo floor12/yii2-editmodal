@@ -16,4 +16,11 @@ interface FilterModelInterface
      * @return DataProviderInterface
      */
     public function dataProvider();
+
+    /**
+     * @param array $data
+     * @param null $formName
+     * @return mixed
+     */
+    public function load(array $data, $formName = null);
 }

@@ -10,18 +10,16 @@ namespace floor12\editmodal;
 
 
 use yii\db\ActiveRecordInterface;
-use yii\web\IdentityInterface;
 
 
 interface LogicInterface
 {
     /**
      * LogicInterface constructor.
-     * @param $model
+     * @param ActiveRecordInterface $model
      * @param array $data
-     * @param IdentityInterface $identity
      */
-    public function __construct(ActiveRecordInterface $model, array $data, IdentityInterface $identity);
+    public function __construct(ActiveRecordInterface $model, array $data);
 
     /**
      * @return bool
