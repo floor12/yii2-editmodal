@@ -13,7 +13,7 @@ use yii\db\ActiveRecordInterface;
 use yii\web\IdentityInterface;
 
 
-interface LogicWithIdentityInterface extends LogicInterface
+interface LogicWithIdentityInterface
 {
     /**
      * LogicInterface constructor.
@@ -22,5 +22,10 @@ interface LogicWithIdentityInterface extends LogicInterface
      * @param IdentityInterface $identity
      */
     public function __construct(ActiveRecordInterface $model, array $data, IdentityInterface $identity);
+
+    /**
+     * @return bool
+     */
+    public function execute();
 
 }
