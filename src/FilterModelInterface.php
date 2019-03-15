@@ -22,5 +22,5 @@ interface FilterModelInterface
      * @param null $formName
      * @return mixed
      */
-    public function load(array $data, $formName = null);
+    public function load($data, $formName = null);
 }
