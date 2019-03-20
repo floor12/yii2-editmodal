@@ -160,7 +160,8 @@ $(document).on('submit', 'form.modaledit-form', function () {
     form = $(this);
     data = new FormData(this);
     info('Отправка данных...', 0);
-
+    form.find('button[type="submit"]').attr('disabled', 'true');
+    
     $.ajax({
         url: $(this).attr('action'),
         method: $(this).attr('method'),
