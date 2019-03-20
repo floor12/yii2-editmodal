@@ -230,10 +230,11 @@ function autosaveRestore() {
                 var field = $("[name='" + decodeURIComponent(vals[0]) + "']");
                 var value = decodeURIComponent(vals[1]);
                 if (field.next('.note-editor').length > 0) {
+                    console.log(value);
                     setTimeout(function () {
                         field.summernote('reset');
                         field.summernote('pasteHTML', value);
-                    }, 100)
+                    }, 400)
 
                 } else
                     field.val(value);
