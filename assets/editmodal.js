@@ -161,7 +161,7 @@ $(document).on('submit', 'form.modaledit-form', function () {
     data = new FormData(this);
     info('Отправка данных...', 0);
     form.find('button[type="submit"]').attr('disabled', 'true');
-    
+
     $.ajax({
         url: $(this).attr('action'),
         method: $(this).attr('method'),
@@ -170,12 +170,14 @@ $(document).on('submit', 'form.modaledit-form', function () {
         contentType: false,
         data: data,
         success: function (response) {
+            form.find('button[type="submit"]').removeAttr('disabled');
             $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal div.modal-content').html(response);
             autosaveClean();
             offPageLeaving();
         },
         error: function (response) {
+            form.find('button[type="submit"]').removeAttr('disabled');
             processError(response);
         }
     });
