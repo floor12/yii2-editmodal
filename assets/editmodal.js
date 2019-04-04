@@ -146,12 +146,12 @@ function editModalFullscreenClose() {
         $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
 }
 
-$(document).on('click', 'a.modaledit-disable', function () {
+$(document).on('click', '.modaledit-disable', function () {
     cancelModalEdit();
     return false;
 });
 
-$(document).on('click', 'a.modaledit-disable-silent', function () {
+$(document).on('click', '.modaledit-disable-silent', function () {
     cancelModalEditSilent();
     return false;
 });
