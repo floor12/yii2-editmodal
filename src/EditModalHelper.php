@@ -54,7 +54,7 @@ class EditModalHelper
     }
 
     /** Return Javascript code to show modal form.
-     * @param $route EditModalAction route
+     * @param $route array EditModalAction route
      * @param int|array $params Some params
      * @return string JS code
      */
@@ -68,8 +68,8 @@ class EditModalHelper
     }
 
     /** Return Javascript code to delete object.
-     * @param $route DeleteAction route
-     * @param $id  Object ID
+     * @param $route array DeleteAction route
+     * @param $id integer Object ID
      * @return string JS code
      */
     public static function deleteItem($route, $id)
