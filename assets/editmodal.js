@@ -146,12 +146,12 @@ function editModalFullscreenClose() {
         $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
 }
 
-$(document).on('click', 'a.modaledit-disable', function () {
+$(document).on('click', '.modaledit-disable', function () {
     cancelModalEdit();
     return false;
 });
 
-$(document).on('click', 'a.modaledit-disable-silent', function () {
+$(document).on('click', '.modaledit-disable-silent', function () {
     cancelModalEditSilent();
     return false;
 });
@@ -230,6 +230,7 @@ function autosaveRestore() {
             $.each(data.split('&'), function (index, elem) {
                 var vals = elem.split('=');
                 var field = $("[name='" + decodeURIComponent(vals[0]) + "']");
+                console.log(field);
                 var value = decodeURIComponent(vals[1]);
                 if (field.next('.note-editor').length > 0) {
                     console.log(value);
@@ -238,7 +239,7 @@ function autosaveRestore() {
                         field.summernote('pasteHTML', value);
                     }, 400)
 
-                } else
+                } else if (field.parents('.floor12-files-widget-block').length == 0)
                     field.val(value);
             });
         }
