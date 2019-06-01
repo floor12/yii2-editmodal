@@ -28,7 +28,7 @@ class EditModalHelper
     {
         $path = Url::toRoute($path);
         EditModalAsset::register(Yii::$app->getView());
-        return " " . Html::a(IconHelper::PENCIL, null, [
+        return " " . Html::button(IconHelper::PENCIL, [
                 'onclick' => "showForm('{$path}',{$id})",
                 'title' => 'редактировать',
                 'class' => $class
@@ -46,7 +46,7 @@ class EditModalHelper
     {
         $path = Url::toRoute($path);
         EditModalAsset::register(Yii::$app->getView());
-        return " " . Html::a(IconHelper::TRASH, null, [
+        return " " . Html::button(IconHelper::TRASH, [
                 'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
                 'title' => 'удалить',
                 'class' => $class

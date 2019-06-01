@@ -22,7 +22,7 @@ use yii\widgets\Pjax;
 $this->title = 'Список';
 $this->params['breadcrumbs'][] = $this->title;
 
-echo Html::a(IconHelper::PLUS . ' Добавить объект', null, [
+echo Html::button(IconHelper::PLUS . ' Добавить объект', [
 'onclick' => EditModalHelper::showForm(['form'], 0),
 'class' => 'btn btn-primary btn-sm pull-right'
 ])
