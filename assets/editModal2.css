@@ -1,0 +1,58 @@
+div.editmodal-backdrop {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #00000061;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+div.editmodal-wrapper {
+    overflow: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+}
+
+div.editmodal-modal {
+    width: 90%;
+    margin-top: 40px;
+    background-color: white;
+    z-index: 21;
+    margin: 0 50%;
+    transform: translate(-50%);
+    box-shadow: 0px 0 30px #0000006b;
+    max-width: 850px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+div.editmodal-modal.expanded {
+    max-width: 1300px;
+}
+
+div.editmodal-modal button[type='submit'] {
+    float: right;
+}
+
+div.editmodal-modal div.editmodal-modal-title {
+    margin: 0 0 15px 0;
+    border-bottom: 1px #ccc solid;
+    padding-bottom: 9px;
+    font-size: 1.4em;
+}
+
+body.editmodal-modal-opened {
+    overflow: hidden;
+}
+
+body.editmodal-modal-opened div.editmodal-backdrop,
+body.editmodal-modal-opened div.editmodal-modal {
+    opacity: 1;
+}

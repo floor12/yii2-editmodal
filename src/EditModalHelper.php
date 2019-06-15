@@ -18,6 +18,40 @@ use yii\helpers\Url;
  */
 class EditModalHelper
 {
+
+    public static function open(string $url, $params = [])
+    {
+
+    }
+
+    /**
+     * @param array $options
+     * @return string
+     */
+    public static function btnClose($options = [])
+    {
+        $onclick = ['onclick' => 'f12editmodal.close()'];
+        return Html::button(IconHelper::CLOSE, array_merge($onclick, $options));
+    }
+
+    /**
+     * @param array $options
+     * @return string
+     */
+    public static function btnFullscreen($options = [])
+    {
+        $onclick = ['onclick' => 'f12editmodal.expand()'];
+        return Html::button(IconHelper::EXPAND, array_merge($onclick, $options));
+    }
+
+
+
+
+
+
+
+
+
     /** Return button to show modal window
      * @param string $path Modal edit action route
      * @param integer $id Object ID
