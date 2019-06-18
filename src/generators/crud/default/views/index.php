@@ -13,7 +13,7 @@ echo "<?php\n"; ?>
 use floor12\editmodal\EditModalHelper;
 use floor12\editmodal\IconHelper;
 use floor12\editmodal\EditModalColumn;
-use kartik\form\ActiveForm;
+use yii\widgets\ActiveForm;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
