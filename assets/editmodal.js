@@ -253,3 +253,14 @@ function autosaveClean() {
 setInterval(function () {
     autosave();
 }, 3000);
+
+
+function modalFixer() {
+    let modal = $('#modaledit-modal');
+    if (modal.length > 0 && !$('body').hasClass('modal-open'))
+        $('body').addClass('modal-open');
+}
+
+setInterval(function () {
+    modalFixer();
+}, 1000)
