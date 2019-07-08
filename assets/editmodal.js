@@ -257,7 +257,7 @@ setInterval(function () {
 
 function modalFixer() {
     let modal = $('#modaledit-modal');
-    if (modal.length > 0 && !$('body').hasClass('modal-open'))
+    if (modal.length > 0 && modal.hasClass('in') && !$('body').hasClass('modal-open'))
         $('body').addClass('modal-open');
 }
 
