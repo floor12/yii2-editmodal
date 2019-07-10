@@ -16,7 +16,7 @@ use yii\helpers\Url;
  * Class EditModalHelper
  * @package floor12\editmodal
  */
-class EditModalHelper
+class EditModalHelper2
 {
 
     public static function open(string $url, $params = [])
@@ -30,7 +30,7 @@ class EditModalHelper
      */
     public static function btnClose($options = [])
     {
-        $onclick = ['onclick' => 'cancelModalEditSilent()'];
+        $onclick = ['onclick' => 'f12editmodal.close()'];
         return Html::button(IconHelper::CLOSE, array_merge($onclick, $options));
     }
 
@@ -40,9 +40,10 @@ class EditModalHelper
      */
     public static function btnFullscreen($options = [])
     {
-        $onclick = ['onclick' => 'editModalFullscreen()'];
+        $onclick = ['onclick' => 'f12editmodal.expand()'];
         return Html::button(IconHelper::EXPAND, array_merge($onclick, $options));
     }
+
 
 
     /** Return button to show modal window
