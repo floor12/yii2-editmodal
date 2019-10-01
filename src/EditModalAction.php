@@ -44,8 +44,12 @@ class EditModalAction extends Action
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
-        if ($this->scenario)
+        if (is_string($this->scenario))
             $this->_modelObject->setScenario($this->scenario);
+
+
+        if (is_object($this->scenario))
+            $this->_modelObject->setScenario(call_user_func($this->scenario, $this->_modelObject));
 
 
         if (!$this->logic && ($this->_modelObject->load(Yii::$app->request->post())) && $this->_modelObject->save()) {
