@@ -16,6 +16,7 @@ class IndexAction extends Action
 {
     public $model;
     public $view = 'index';
+    public $layout;
     public $access = true;
     public $viewParams = [];
 
@@ -26,6 +27,9 @@ class IndexAction extends Action
     {
         if (!$this->access)
             throw new ForbiddenHttpException();
+
+        if ($this->layout)
+            $this->controller->layout = $this->layout;
 
         if ($this->model) {
             $this->_modelObject = new $this->model;
