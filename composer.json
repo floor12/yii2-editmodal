@@ -24,9 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "floor12\\editmodal\\": [
-        "src"
-      ]
+      "floor12\\editmodal\\": "src"
     }
   }
 }
