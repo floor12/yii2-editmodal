@@ -37,6 +37,8 @@ class IndexAction extends Action
             $this->viewParams['model'] = $this->_modelObject;
         }
 
+        Yii::$app->response->headers->add('Vary', 'X-PJAX,X-Requested-With');
+        
         return $this->controller->render($this->view, $this->viewParams);
     }
 
