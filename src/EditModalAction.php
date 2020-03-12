@@ -24,11 +24,12 @@ class EditModalAction extends Action
     public $successJs;
     public $successHtml;
     public $scenario;
+    public $showNextOnSuccess = false;
     public $viewParams = [];
     public $container = '#items';
 
-    private $_return;
-    private $_modelObject;
+    private $returnString;
+    private $modelObject;
 
     public function run($id = 0)
     {
@@ -36,49 +37,76 @@ class EditModalAction extends Action
             throw new ForbiddenHttpException();
 
         if (!$id)
-            $this->_modelObject = new $this->model;
+            $this->modelObject = new $this->model;
         else {
             $classname = $this->model;
-            $this->_modelObject = $classname::findOne(intval($id));
-            if (!$this->_modelObject)
+            $this->modelObject = $classname::findOne(intval($id));
+            if (!$this->modelObject)
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
 
         if (is_string($this->scenario))
-            $this->_modelObject->setScenario($this->scenario);
+            $this->modelObject->setScenario($this->scenario);
 
 
         if (is_object($this->scenario))
-            $this->_modelObject->setScenario(call_user_func($this->scenario, $this->_modelObject));
+            $this->modelObject->setScenario(call_user_func($this->scenario, $this->modelObject));
 
+        if (Yii::$app->request->post('showNextOnSuccess'))
+            $this->showNextOnSuccess = true;
 
-        if (!$this->logic && ($this->_modelObject->load(Yii::$app->request->post())) && $this->_modelObject->save()) {
-            return $this->getReturnString();
+        if (!$this->logic &&
+            ($this->modelObject->load(Yii::$app->request->post())) &&
+            $this->modelObject->save()
+        ) {
+            return $this->getReturnData();
         }
 
-        if ($this->logic && \Yii::$app->request->isPost) {
-            if (\Yii::createObject($this->logic, [$this->_modelObject, \Yii::$app->request->post(), \Yii::$app->user->identity])->execute())
-                return $this->getReturnString();
+        if (
+            $this->logic &&
+            \Yii::$app->request->isPost) {
+            if (\Yii::createObject($this->logic, [$this->modelObject, \Yii::$app->request->post(), \Yii::$app->user->identity])->execute())
+                return $this->getReturnData();
         }
-
-        $this->viewParams['model'] = $this->_modelObject;
+        $this->viewParams['model'] = $this->modelObject;
         return $this->controller->renderAjax($this->view, $this->viewParams);
     }
 
+    protected function getReturnData()
+    {
+        if ($this->showNextOnSuccess)
+            return $this->loadNext();
+        else
+            return $this->getSuccessReturnString();
+    }
 
-    protected function getReturnString()
+    protected function loadNext()
+    {
+        $classname = $this->model;
+        $nextObjectId = $classname::find()->where(['>', 'id', $this->modelObject->id])->limit(1)->select('id')->scalar();
+        if (empty($nextObjectId))
+            return $this->getSuccessReturnString();
+        $currentPath = Yii::$app->request->getPathInfo();
+        return \Yii::createObject(ModalWindow::class, [])
+            ->reloadContainer($this->container)
+            ->info($this->message, ModalWindow::TYPE_OK)
+            ->runFunction("showForm('{$currentPath}',{$nextObjectId})")
+            ->run();
+    }
+
+    protected function getSuccessReturnString()
     {
         if ($this->successHtml)
-            $this->_return = call_user_func($this->successHtml, $this->_modelObject);
+            $this->returnString = call_user_func($this->successHtml, $this->modelObject);
         elseif ($this->successJs)
-            $this->_return = Html::tag('script', $this->successJs);
+            $this->returnString = Html::tag('script', $this->successJs);
         else
-            $this->_return = \Yii::createObject(ModalWindow::class, [])
+            $this->returnString = \Yii::createObject(ModalWindow::class, [])
                 ->reloadContainer($this->container)
                 ->info($this->message, ModalWindow::TYPE_OK)
                 ->hide()
                 ->run();
-        return $this->_return;
+        return $this->returnString;
     }
 
 }
