@@ -83,7 +83,11 @@ class EditModalAction extends Action
     protected function loadNext()
     {
         $classname = $this->model;
-        $nextObjectId = $classname::find()->where(['>', 'id', $this->modelObject->id])->limit(1)->select('id')->scalar();
+        $nextObjectId = $classname::find()
+            ->where("id = (SELECT MIN(id) FROM {$classname::tableName()} WHERE id>{$this->modelObject->id} )")
+            ->limit(1)
+            ->select('id')
+            ->scalar();
         if (empty($nextObjectId))
             return $this->getSuccessReturnString();
         $currentPath = Yii::$app->request->getPathInfo();

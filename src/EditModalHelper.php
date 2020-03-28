@@ -47,15 +47,16 @@ class EditModalHelper
 
     /** Return button to show modal window
      * @param string $path Modal edit action route
-     * @param integer $id Object ID
-     * @param string $class Object Class
+     * @param integer $id Button html ID
+     * @param string $class Button css class
+     * @param string $content Content of button
      * @return string Html code
      */
-    public static function editBtn($path, $id, $class = "btn btn-default btn-sm")
+    public static function editBtn($path, $id, $class = "btn btn-default btn-sm", $content = IconHelper::PENCIL)
     {
         $path = Url::toRoute($path);
         EditModalAsset::register(Yii::$app->getView());
-        return " " . Html::button(IconHelper::PENCIL, [
+        return " " . Html::button($content, [
                 'onclick' => "showForm('{$path}',{$id})",
                 'title' => 'редактировать',
                 'class' => $class
@@ -64,16 +65,17 @@ class EditModalHelper
 
     /** Return delete button
      * @param string $path DeleteAction route
-     * @param integer $id Object ID
-     * @param string $class Object Class
+     * @param integer $id Button html ID
+     * @param string $class Buttin css class
      * @param string $container Pjax container DOM id to reload after deleting
+     * @param string $content Content of button
      * @return string Html code
      */
-    public static function deleteBtn($path, $id, $class = "btn btn-default btn-sm", $container = '#items')
+    public static function deleteBtn($path, $id, $class = "btn btn-default btn-sm", $container = '#items', $content = IconHelper::TRASH)
     {
         $path = Url::toRoute($path);
         EditModalAsset::register(Yii::$app->getView());
-        return " " . Html::button(IconHelper::TRASH, [
+        return " " . Html::button($content, [
                 'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
                 'title' => 'удалить',
                 'class' => $class
