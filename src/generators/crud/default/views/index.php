@@ -7,8 +7,13 @@
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 
-echo "<?php\n"; ?>
+echo '<?php' ?>
 
+/**
+* @var $this yii\web\View
+* @var $model <?= ltrim($generator->modelClass, '\\') ?>
+
+*/
 
 use floor12\editmodal\EditModalHelper;
 use floor12\editmodal\IconHelper;
@@ -18,14 +23,10 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
-
 $this->title = 'Список';
 $this->params['breadcrumbs'][] = $this->title;
 
-echo Html::button(IconHelper::PLUS . ' Добавить объект', [
-'onclick' => EditModalHelper::showForm(['form'], 0),
-'class' => 'btn btn-primary btn-sm pull-right'
-])
+echo EditModalHelper::editBtn('form', 0, 'btn btn-primary btn-sm pull-right', IconHelper::PLUS . ' Добавить объект');
 
 ?>
 
@@ -37,13 +38,16 @@ echo Html::button(IconHelper::PLUS . ' Добавить объект', [
     'enableClientValidation' => false,
 ]); ?>" ?>
 
+
     <div class="filter-block">
         <div class="row">
             <div class="col-md-9">
                 <?="<?= \$form->field(\$model,'filter')->label(false)->textInput(['placeholder'=>'Поиск','autofocus' => true])?>"?>
+
             </div>
             <div class="col-md-3">
                 <?="<?= \$form->field(\$model,'status')->label(false)->dropDownList([],['prompt'=>'Все статусы'])?>"?>
+
             </div>
         </div>
     </div>
@@ -51,7 +55,6 @@ echo Html::button(IconHelper::PLUS . ' Добавить объект', [
 <?= "<?php\n";?>
 
 ActiveForm::end();
-
 
 Pjax::begin([
     'id' => 'items',
@@ -68,25 +71,24 @@ $count = 0;
 if (($tableSchema = $generator->getTableSchema()) === false) {
     foreach ($generator->getColumnNames() as $name) {
         if (++$count < 6) {
-            echo "            '" . $name . "',\n";
+            echo "        '" . $name . "',\n";
         } else {
-            echo "            //'" . $name . "',\n";
+            echo "        //'" . $name . "',\n";
         }
     }
 } else {
     foreach ($tableSchema->columns as $column) {
         $format = $generator->generateColumnFormat($column);
         if (++$count < 6) {
-            echo "            '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+            echo "        '" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
         } else {
-            echo "            //'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+            echo "        //'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
         }
     }
 }
 ?>
         [
-        'class' => EditModalColumn::class,
-        'contentOptions' => ['style' => 'min-width:100px;', 'class' => 'text-right'],
+            'class' => EditModalColumn::class,
         ],
     ],
 ]);
