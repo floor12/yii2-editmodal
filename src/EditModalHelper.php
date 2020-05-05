@@ -54,7 +54,7 @@ class EditModalHelper
      */
     public static function editBtn($path, $id, $class = "btn btn-default btn-sm", $content = IconHelper::PENCIL)
     {
-        $path = Url::toRoute($path);
+        $path = Url::to($path);
         EditModalAsset::register(Yii::$app->getView());
         return " " . Html::button($content, [
                 'onclick' => "showForm('{$path}',{$id})",
