@@ -33,9 +33,7 @@ class EditModalAction extends Action
 
     public function run($id = 0)
     {
-        if (!$this->access)
-            throw new ForbiddenHttpException();
-
+        
         if (!$id)
             $this->modelObject = new $this->model;
         else {
@@ -44,6 +42,12 @@ class EditModalAction extends Action
             if (!$this->modelObject)
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
+
+        if (is_callable($this->access))
+            $this->access = call_user_func($this->access, $this->modelObject);
+
+        if (is_bool($this->access) && $this->access == false)
+            throw new ForbiddenHttpException();
 
         if (is_string($this->scenario))
             $this->modelObject->setScenario($this->scenario);
