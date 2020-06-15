@@ -33,7 +33,7 @@ var latestFormRoute;
 
 // form staff
 
-function showForm(route, params, modalParams) {
+function showForm(route, params, modalParams, silent = false) {
 
 
     if (route.substring(0, 1) != '/') {
@@ -52,8 +52,8 @@ function showForm(route, params, modalParams) {
 
     latestFormRoute = route + encodeURIComponent(params);
 
-
-    info('Загрузка формы...', 0);
+    if (silent !== true)
+        info('Загрузка формы...', 0);
 
     if (!modalParams)
         modalParams = {keyboard: false, backdrop: 'static'};
