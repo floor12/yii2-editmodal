@@ -55,6 +55,7 @@ class EditModalHelper
     public static function editBtn($path, $id, $class = "btn btn-default btn-sm", $content = IconHelper::PENCIL)
     {
         $path = Url::toRoute([$path]);
+        $path = str_replace(Yii::$app->urlManager->baseUrl, '', $path);
         EditModalAsset::register(Yii::$app->getView());
         return " " . Html::button($content, [
                 'onclick' => "showForm('{$path}',{$id})",
@@ -73,7 +74,8 @@ class EditModalHelper
      */
     public static function deleteBtn($path, $id, $class = "btn btn-default btn-sm", $container = '#items', $content = IconHelper::TRASH)
     {
-        $path = Url::toRoute($path);
+        $path = Url::toRoute([$path]);
+        $path = str_replace(Yii::$app->urlManager->baseUrl, '', $path);
         EditModalAsset::register(Yii::$app->getView());
         return " " . Html::button($content, [
                 'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
