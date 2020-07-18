@@ -33,7 +33,7 @@ var latestFormRoute;
 
 // form staff
 
-function showForm(route, params, modalParams, silent = false) {
+function showForm(route, params, modalParams, silent = false, closePrevent = true, autosave = false) {
 
 
     if (route.substring(0, 1) != '/') {
@@ -68,8 +68,11 @@ function showForm(route, params, modalParams, silent = false) {
             $('#modaledit-modal').modal(modalParams);
             $('#modaledit-modal div.modal-content').html(response);
             $('.dropdown-toggle').dropdown();
-            autosaveRestore();
-            onPageLeaving();
+            if (autosave === true) {
+                autosaveRestore();
+            }
+            if (closePrevent === true)
+                onPageLeaving();
         },
         error: function (response) {
             processError(response);
