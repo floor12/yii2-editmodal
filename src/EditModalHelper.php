@@ -89,14 +89,14 @@ class EditModalHelper
      * @param int|array $params Some params
      * @return string JS code
      */
-    public static function showForm($route, $params = 0, $modalParams = null)
+    public static function showForm($route, $params = 0, $modalParams = null, $silent = false)
     {
         $url = Url::toRoute($route);
         $url = str_replace(Yii::$app->urlManager->baseUrl, '', $url);
         $data = json_encode($params);
-        if ($modalParams !== null)
-            $modalParams = json_encode($modalParams);
-        return 'showForm("' . $url . '",' . $data . ',' . $modalParams . ')';
+        $modalParams = json_encode($modalParams ?? []);
+        $silent = $silent ? 'true' : 'false';
+        return 'showForm("' . $url . '",' . $data . ',' . $modalParams . ',' . $silent . ')';
     }
 
     /** Return Javascript code to delete object.
