@@ -33,7 +33,7 @@ var latestFormRoute;
 
 // form staff
 
-function showForm(route, params, modalParams, silent = false, closePrevent = true, autosave = false) {
+function showForm(route, params, modalParams, silent = false, closePrevent = true, autosave = false, sizeClass = 'modal-lg') {
 
 
     if (route.substring(0, 1) != '/') {
@@ -64,6 +64,8 @@ function showForm(route, params, modalParams, silent = false, closePrevent = tru
         success: function (response) {
             if ($('#modaledit-modal div.modal-dialog').hasClass('fullscreened'))
                 $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
+            $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
+            $('#modaledit-modal div.modal-dialog').addClass(sizeClass);
             $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal').modal(modalParams);
             $('#modaledit-modal div.modal-content').html(response);
