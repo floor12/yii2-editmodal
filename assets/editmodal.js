@@ -19,7 +19,7 @@ function offPageLeaving() {
 //prepearing page: make modal block
 
 $(document).ready(function () {
-    modal = '<div class="modal fade" id="modaledit-modal" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"></div></div></div>';
+    modal = '<div class="modal fade" id="modaledit-modal" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"></div></div></div>';
     $(modal).appendTo($('body'));
 });
 
