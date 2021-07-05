@@ -94,7 +94,7 @@ class EditModalHelper
         $url = Url::toRoute($route);
         $url = str_replace(Yii::$app->urlManager->baseUrl, '', $url);
         $data = json_encode($params);
-        $modalParams = json_encode($modalParams ?? []);
+        $modalParams = json_encode($modalParams ?? ['keyboard' => false, 'backdrop' => 'static']);
         $silent = $silent ? 'true' : 'false';
         return 'showForm("' . $url . '",' . $data . ',' . $modalParams . ',' . $silent . ')';
     }
