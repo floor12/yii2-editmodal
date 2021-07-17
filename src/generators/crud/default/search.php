@@ -58,6 +58,10 @@ class <?= $searchModelClass ?> extends Model
 
         $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
 
+//        $query->andFilterWhere(['=', 'status', $this->status]);
+//        $query->andFilterWhere(['ILIKE', 'name', is_numeric($this->filter) ? NULL : $this->filter]);
+//        $query->andFilterWhere(['=', 'id', is_numeric($this->filter) ? (int)$this->filter : NULL]);
+
         return new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
