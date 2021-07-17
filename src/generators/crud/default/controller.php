@@ -17,13 +17,6 @@ if ($modelClass === $searchModelClass) {
     $searchModelAlias = $searchModelClass . 'Search';
 }
 
-/* @var $class ActiveRecordInterface */
-$class = $generator->modelClass;
-$pks = $class::primaryKey();
-$urlParams = $generator->generateUrlParams();
-$actionParams = $generator->generateActionParams();
-$actionParamComments = $generator->generateActionParamComments();
-
 echo "<?php\n";
 ?>
 
@@ -33,8 +26,6 @@ namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>
 use <?= ltrim($generator->modelClass, '\\') ?>;
 use <?= ltrim($generator->searchModelClass, '\\') ?>;
 use <?= ltrim($generator->baseControllerClass, '\\') ?>;
-
-
 use floor12\editmodal\DeleteAction;
 use floor12\editmodal\EditModalAction;
 use floor12\editmodal\IndexAction;
@@ -42,42 +33,34 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 
-
-/**
- * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
- */
 class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->baseControllerClass) . "\n" ?>
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
+
+    public function behaviors(): array
     {
         return [
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
-                        [
+                    [
                         'allow' => true,
                         'roles' => ['@'],
-                        ]
-                  ]
+                    ]
+                ]
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['GET'],
-                    'form' => ['GET','POST'],
+                    'form' => ['GET', 'POST'],
                     'delete' => ['DELETE'],
                 ],
             ],
         ];
     }
 
-    /**
-    * {@inheritdoc}
-    */
-    public function actions()
+
+    public function actions(): array
     {
         return [
             'index' => [

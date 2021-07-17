@@ -23,13 +23,12 @@ echo "<?php\n";
 
 namespace <?= StringHelper::dirname(ltrim($generator->searchModelClass, '\\')) ?>;
 
+use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelAlias" : "") ?>;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelAlias" : "") ?>;
+use yii\web\BadRequestHttpException;
 
-/**
- * <?= $searchModelClass ?> represents the model behind the search form of `<?= $generator->modelClass ?>`.
- */
+
 class <?= $searchModelClass ?> extends Model
 
 {
@@ -39,7 +38,7 @@ class <?= $searchModelClass ?> extends Model
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['filter', 'string'],
@@ -47,28 +46,22 @@ class <?= $searchModelClass ?> extends Model
         ];
     }
 
+
     /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
+     * @throws BadRequestHttpException
      */
-    public function dataProvider()
+    public function dataProvider(): ActiveDataProvider
     {
-        $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
-
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
         if (!$this->validate()) {
-            $query->where('0=1');
-            return $dataProvider;
+            throw new BadRequestHttpException('Form validation error.');
         }
 
-        return $dataProvider;
+        $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
+
+        return new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
+        ]);
     }
+
 }
