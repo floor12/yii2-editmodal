@@ -31,9 +31,9 @@ class EditModalAction extends Action
     private $returnString;
     private $modelObject;
 
-    public function run($id = 0)
+    public function run($id = 0, $copy = null)
     {
-        
+
         if (!$id)
             $this->modelObject = new $this->model;
         else {
@@ -41,6 +41,12 @@ class EditModalAction extends Action
             $this->modelObject = $classname::findOne(intval($id));
             if (!$this->modelObject)
                 throw new NotFoundHttpException("Object with id {$id} not found");
+        }
+
+        if ($copy === '1') {
+            $oldModel = $this->modelObject;
+            $this->modelObject = new $this->model;
+            $this->modelObject->attributes = $oldModel->attributes;
         }
 
         if (is_callable($this->access))

@@ -17,6 +17,7 @@ use yii\grid\Column;
 class EditModalColumn extends Column
 {
 
+    public $showCopy = false;
     public $editPath = 'form';
     public $deletePath = 'delete';
     public $container = '#items';
@@ -31,7 +32,14 @@ class EditModalColumn extends Column
     {
         $ret = EditModalHelper::editBtn($this->editPath, $model->id, $this->cssClass);
         $ret .= ' ';
+
+        if ($this->showCopy) {
+            $ret .= EditModalHelper::CopyBtn($this->editPath, $model->id, $this->cssClass);
+            $ret .= ' ';
+        }
+
         $ret .= EditModalHelper::deleteBtn($this->deletePath, $model->id, $this->cssClass, $this->container);
+
         return $ret;
     }
 }

@@ -64,6 +64,26 @@ class EditModalHelper
             ]);
     }
 
+    /** Return button to show modal window
+     * @param string $path Modal edit action route
+     * @param integer $id Button html ID
+     * @param string $class Button css class
+     * @param string $content Content of button
+     * @return string Html code
+     */
+    public static function copyBtn($path, $id, $class = "btn btn-default btn-sm", $content = IconHelper::COPY)
+    {
+        $path = Url::toRoute([$path]);
+        $path = str_replace(Yii::$app->urlManager->baseUrl, '', $path);
+        EditModalAsset::register(Yii::$app->getView());
+        $params = json_encode(['id' => $id, 'copy' => 1]);
+        return " " . Html::button($content, [
+                'onclick' => "showForm('{$path}',{$params})",
+                'title' => 'копировать',
+                'class' => $class
+            ]);
+    }
+
     /** Return delete button
      * @param string $path DeleteAction route
      * @param integer $id Button html ID
