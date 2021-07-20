@@ -23,7 +23,7 @@ class EditModalColumn extends Column
     public $container = '#items';
     public $cssClass = "btn btn-default btn-sm";
 
-    public $contentOptions = ['style' => 'min-width: 100px; text-align:right;'];
+    public $contentOptions = ['style' => 'white-space: nowrap; text-align:right;'];
 
     /**
      * {@inheritdoc}
