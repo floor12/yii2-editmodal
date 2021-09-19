@@ -18,6 +18,8 @@ class EditModalColumn extends Column
 {
 
     public $showCopy = false;
+    public $showDelete = true;
+    public $showEdit = true;
     public $editPath = 'form';
     public $deletePath = 'delete';
     public $container = '#items';
@@ -30,16 +32,27 @@ class EditModalColumn extends Column
      */
     protected function renderDataCellContent($model, $key, $index)
     {
-        $ret = EditModalHelper::editBtn($this->editPath, $model->id, $this->cssClass);
-        $ret .= ' ';
+        $buttons = [];
 
-        if ($this->showCopy) {
-            $ret .= EditModalHelper::CopyBtn($this->editPath, $model->id, $this->cssClass);
-            $ret .= ' ';
+        if ($this->showBtn($model, 'showEdit')) {
+            $buttons[] = EditModalHelper::editBtn($this->editPath, $model->id, $this->cssClass);
         }
 
-        $ret .= EditModalHelper::deleteBtn($this->deletePath, $model->id, $this->cssClass, $this->container);
+        if ($this->showBtn($model, 'showCopy')) {
+            $buttons[] = EditModalHelper::CopyBtn($this->editPath, $model->id, $this->cssClass);
+        }
 
-        return $ret;
+        if ($this->showBtn($model, 'showDelete')) {
+            $buttons[] = EditModalHelper::deleteBtn($this->deletePath, $model->id, $this->cssClass, $this->container);
+        }
+
+        return implode(' ', $buttons);
+    }
+
+    protected function showBtn($model, $fieldName)
+    {
+        return
+            (is_callable($this->$fieldName) && call_user_func($this->$fieldName, $model)) ||
+            (!is_callable($this->$fieldName) && $this->$fieldName);
     }
 }
