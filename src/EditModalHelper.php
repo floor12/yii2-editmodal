@@ -57,6 +57,9 @@ class EditModalHelper
         $path = Url::toRoute([$path]);
         $path = str_replace(Yii::$app->urlManager->baseUrl, '', $path);
         EditModalAsset::register(Yii::$app->getView());
+        if (is_array($id)) {
+            $id = json_encode($id);
+        }
         return " " . Html::button($content, [
                 'onclick' => "showForm('{$path}',{$id})",
                 'title' => 'редактировать',
