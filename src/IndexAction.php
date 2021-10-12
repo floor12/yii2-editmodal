@@ -10,6 +10,7 @@ namespace floor12\editmodal;
 
 use Yii;
 use yii\base\Action;
+use yii\base\ErrorException;
 use yii\web\ForbiddenHttpException;
 
 class IndexAction extends Action

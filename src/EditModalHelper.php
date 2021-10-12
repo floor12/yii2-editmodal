@@ -98,7 +98,7 @@ class EditModalHelper
         $path = str_replace(Yii::$app->urlManager->baseUrl, '', $path);
         EditModalAsset::register(Yii::$app->getView());
         return " " . Html::button($content, [
-                'onclick' => "deleteItem('{$path}',{$id},'{$container}')",
+                'onclick' => "deleteItem('{$path}','{$id}','{$container}')",
                 'title' => 'удалить',
                 'class' => $class
             ]);
