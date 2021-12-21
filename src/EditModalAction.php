@@ -27,6 +27,7 @@ class EditModalAction extends Action
     public $showNextOnSuccess = false;
     public $viewParams = [];
     public $container = '#items';
+    public $strictIntegerKey = true;
 
     private $returnString;
     private $modelObject;
@@ -38,7 +39,7 @@ class EditModalAction extends Action
             $this->modelObject = new $this->model;
         else {
             $classname = $this->model;
-            $this->modelObject = $classname::findOne(intval($id));
+            $this->modelObject = $classname::findOne($this->strictIntegerKey ? intval($id) : $id);
             if (!$this->modelObject)
                 throw new NotFoundHttpException("Object with id {$id} not found");
         }
