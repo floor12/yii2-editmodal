@@ -46,7 +46,7 @@ class ModalWindow
 
     public function run()
     {
-        return Html::script($this->_return);
+        return Html::script("setTimeout(()=>{{$this->_return}},300)");
     }
 
     public static function btnFullscreen($class = null)
