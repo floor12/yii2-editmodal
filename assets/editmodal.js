@@ -53,7 +53,7 @@ function showForm(route, params, modalParams, silent = false, closePrevent = tru
     latestFormRoute = route + encodeURIComponent(params);
 
     if (silent !== true)
-        info('Загрузка формы...', 0);
+        info('Loading...', 0);
 
     if (!modalParams)
         modalParams = {keyboard: false, backdrop: 'static'};
@@ -89,7 +89,7 @@ function deleteItem(route, id) {
         route = '/' + route;
     }
 
-    if (confirm('Вы уверены что хотите удалить?')) {
+    if (confirm('Do you want to delete it?')) {
         $.ajax({
             data: {id: id},
             method: 'DELETE',
@@ -124,7 +124,7 @@ function hideFormModal() {
 function cancelModalEdit() {
     onPageLeaving();
     offPageLeaving();
-    info('Отмена редактирования. Изменения не сохранены.', 0);
+    info('Editing is canceled.', 0);
     hideFormModal();
 
 }
@@ -164,7 +164,7 @@ $(document).on('click', '.modaledit-disable-silent', function () {
 $(document).on('submit', 'form.modaledit-form', function () {
     form = $(this);
     data = new FormData(this);
-    info('Отправка данных...', 0);
+    info('Sending data...', 0);
     form.find('button[type="submit"]').attr('disabled', 'true');
 
     $.ajax({
@@ -231,7 +231,7 @@ function autosave() {
 function autosaveRestore() {
     data = localStorage.getItem(latestFormRoute);
     if (data !== null) {
-        if (confirm('Восстановить предыдущее значение формы?')) {
+        if (confirm('Restore previous form state?')) {
             $.each(data.split('&'), function (index, elem) {
                 var vals = elem.split('=');
                 var field = $("[name='" + decodeURIComponent(vals[0]) + "']");
