@@ -24,7 +24,7 @@ class IndexAction extends Action
     private $_return;
     private $_modelObject;
 
-    public function run($id = 0)
+    public function run($id = 0, $page = null)
     {
         if (!$this->access)
             throw new ForbiddenHttpException();
@@ -36,10 +36,11 @@ class IndexAction extends Action
             $this->_modelObject = new $this->model;
             $this->_modelObject->load(Yii::$app->request->get());
             $this->viewParams['model'] = $this->_modelObject;
+            $this->viewParams['page'] = $page;
         }
 
         Yii::$app->response->headers->add('Vary', 'X-PJAX,X-Requested-With');
-        
+
         return $this->controller->render($this->view, $this->viewParams);
     }
 
