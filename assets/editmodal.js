@@ -161,33 +161,38 @@ $(document).on('click', '.modaledit-disable-silent', function () {
     return false;
 });
 
-$(document).on('submit', 'form.modaledit-form', function () {
-    form = $(this);
-    data = new FormData(this);
-    info('Sending data...', 0);
-    form.find('button[type="submit"]').attr('disabled', 'true');
+$(document).on('submit', 'form.modaledit-form', function (event) {
+    console.log('1');
+    event.preventDefault();
+    formElement = this;
+    form = $(formElement);
+    setTimeout(function () {
+        data = new FormData(formElement);
+        info('Sending data...', 0);
+        form.find('button[type="submit"]').attr('disabled', 'true');
 
-    $.ajax({
-        url: $(this).attr('action'),
-        method: $(this).attr('method'),
-        enctype: 'multipart/form-data',
-        processData: false,
-        contentType: false,
-        data: data,
-        success: function (response) {
-            form.find('button[type="submit"]').removeAttr('disabled');
-            $('#modaledit-modal div.modal-content').html('');
-            $('#modaledit-modal div.modal-content').html(response);
-            autosaveClean();
-            offPageLeaving();
-        },
-        error: function (response) {
-            form.find('button[type="submit"]').removeAttr('disabled');
-            processError(response);
-        }
-    });
+        $.ajax({
+            url: $(formElement).attr('action'),
+            method: $(formElement).attr('method'),
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (response) {
+                form.find('button[type="submit"]').removeAttr('disabled');
+                $('#modaledit-modal div.modal-content').html('');
+                $('#modaledit-modal div.modal-content').html(response);
+                autosaveClean();
+                offPageLeaving();
+            },
+            error: function (response) {
+                form.find('button[type="submit"]').removeAttr('disabled');
+                processError(response);
+            }
+        });
 
-    return false;
+        return false;
+    }, 500);
 });
 
 function processError(response) {
