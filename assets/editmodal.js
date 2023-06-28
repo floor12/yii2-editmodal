@@ -58,14 +58,14 @@ function showForm(route, params, modalParams, silent = false, closePrevent = tru
     if (!modalParams)
         modalParams = {keyboard: false, backdrop: 'static'};
 
+    const modalClass = 'modal-dialog';
+
     $.ajax({
         url: route,
         data: data,
         success: function (response) {
-            if ($('#modaledit-modal div.modal-dialog').hasClass('fullscreened'))
-                $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
-            $('#modaledit-modal div.modal-dialog').removeClass('fullscreened');
-            $('#modaledit-modal div.modal-dialog').addClass(sizeClass);
+            $('#modaledit-modal > div').attr('class', '');
+            $('#modaledit-modal > div').addClass(modalClass).addClass(sizeClass);
             $('#modaledit-modal div.modal-content').html('');
             $('#modaledit-modal').modal(modalParams);
             $('#modaledit-modal div.modal-content').html(response);
@@ -75,7 +75,7 @@ function showForm(route, params, modalParams, silent = false, closePrevent = tru
             }
             if (closePrevent === true)
                 onPageLeaving();
-        },
+        }, 
         error: function (response) {
             processError(response);
         }
