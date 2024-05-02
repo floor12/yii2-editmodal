@@ -25,6 +25,8 @@ class EditModalAction extends Action
     public $successHtml;
     public $scenario;
     public $showNextOnSuccess = false;
+    public $showFormOnSuccess = false;
+    public $nextFormUrl = null;
     public $viewParams = [];
     public $container = '#items';
     public $strictIntegerKey = true;
@@ -66,6 +68,9 @@ class EditModalAction extends Action
         if (Yii::$app->request->post('showNextOnSuccess'))
             $this->showNextOnSuccess = true;
 
+        if (Yii::$app->request->post('showFormOnSuccess') && null !== $this->nextFormUrl)
+            $this->showFormOnSuccess = true;
+
         if (!$this->logic &&
             ($this->modelObject->load(Yii::$app->request->post())) &&
             $this->modelObject->save()
@@ -87,8 +92,22 @@ class EditModalAction extends Action
     {
         if ($this->showNextOnSuccess)
             return $this->loadNext();
+        elseif ($this->showFormOnSuccess)
+            return $this->loadNextForm();
         else
             return $this->getSuccessReturnString();
+    }
+
+    protected function loadNextForm()
+    {
+        if (!$this->nextFormUrl)
+            return;
+        $nextFormUrl = call_user_func($this->nextFormUrl, $this->modelObject);
+        return \Yii::createObject(ModalWindow::class, [])
+            ->reloadContainer($this->container)
+            ->info($this->message, ModalWindow::TYPE_OK)
+            ->runFunction("showForm('{$nextFormUrl}')")
+            ->run();
     }
 
     protected function loadNext()
