@@ -75,7 +75,7 @@ function showForm(route, params, modalParams, silent = false, closePrevent = tru
             }
             if (closePrevent === true)
                 onPageLeaving();
-        }, 
+        },
         error: function (response) {
             processError(response);
         }
@@ -185,9 +185,10 @@ $(document).on('submit', 'form.modaledit-form', function (event) {
                 autosaveClean();
                 offPageLeaving();
             },
-            error: function (response) {
+            error: function (response, textStatus, xhr) {
                 form.find('button[type="submit"]').removeAttr('disabled');
-                processError(response);
+                if (xhr.status > 399)
+                    processError(response);
             }
         });
 
