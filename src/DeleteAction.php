@@ -25,9 +25,6 @@ class DeleteAction extends Action
 
     public function run()
     {
-        if (!$this->access)
-            throw new ForbiddenHttpException();
-
         $params = \Yii::$app->request->getBodyParams();
 
         if (isset($params['id']) && $params['id']) {
@@ -37,6 +34,12 @@ class DeleteAction extends Action
                 throw new NotFoundHttpException("Object with id {$params['id']} not found");
         } else
             $model = new $this->model;
+
+        if (is_callable($this->access))
+            $this->access = call_user_func($this->access, $model);
+
+        if (is_bool($this->access) && $this->access == false)
+            throw new ForbiddenHttpException();
 
         if ($this->logic) {
             if (\Yii::createObject($this->logic, [$model, \Yii::$app->user->identity])->execute())
