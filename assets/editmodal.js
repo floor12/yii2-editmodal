@@ -164,31 +164,38 @@ $(document).on('click', '.modaledit-disable-silent', function () {
 $(document).on('submit', 'form.modaledit-form', function (event) {
     console.log('1');
     event.preventDefault();
-    formElement = this;
-    form = $(formElement);
+
+    const formElement = this;
+    const form = $(formElement);
+    const question = form.data('question');
+
+    if (question && !confirm(question)) {
+        return false;
+    }
+
     setTimeout(function () {
-        data = new FormData(formElement);
+        const data = new FormData(formElement);
         info('Sending data...', 0);
         form.find('button[type="submit"]').attr('disabled', 'true');
 
         $.ajax({
-            url: $(formElement).attr('action'),
-            method: $(formElement).attr('method'),
+            url: form.attr('action'),
+            method: form.attr('method'),
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
             data: data,
             success: function (response) {
                 form.find('button[type="submit"]').removeAttr('disabled');
-                $('#modaledit-modal div.modal-content').html('');
                 $('#modaledit-modal div.modal-content').html(response);
                 autosaveClean();
                 offPageLeaving();
             },
             error: function (response, textStatus, xhr) {
                 form.find('button[type="submit"]').removeAttr('disabled');
-                if (xhr.status > 399)
+                if (xhr.status > 399) {
                     processError(response);
+                }
             }
         });
 
