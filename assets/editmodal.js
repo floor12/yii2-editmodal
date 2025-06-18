@@ -187,9 +187,17 @@ $(document).on('submit', 'form.modaledit-form', function (event) {
             data: data,
             success: function (response) {
                 form.find('button[type="submit"]').removeAttr('disabled');
-                $('#modaledit-modal div.modal-content').html(response);
+                console.log(response)
                 autosaveClean();
                 offPageLeaving();
+                if (response.substring(0, 8) == '<script>' && response.substring(response.length - 9) == '</script>') {
+                    var script = response.substring(8, response.length - 9);
+                    console.log(script);
+                    eval(script);
+                    return;
+                }
+                $('#modaledit-modal div.modal-content').html(response);
+
             },
             error: function (response, textStatus, xhr) {
                 form.find('button[type="submit"]').removeAttr('disabled');
