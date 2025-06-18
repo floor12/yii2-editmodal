@@ -32,11 +32,11 @@ use yii\web\Controller;
  */
 class Generator extends \yii\gii\Generator
 {
-    public $modelClass;
-    public $controllerClass;
-    public $viewPath;
+    public $modelClass = 'app\models\entity';
+    public $controllerClass = 'app\modules\admin\controllers';
+    public $viewPath = '@app/modules/admin/views/';
     public $baseControllerClass = 'yii\web\Controller';
-    public $searchModelClass = '';
+    public $searchModelClass = 'app\modules\admin\filter';
     /**
      * @var bool whether to wrap the `GridView` or `ListView` widget with the `yii\widgets\Pjax` widget
      * @since 2.0.5
