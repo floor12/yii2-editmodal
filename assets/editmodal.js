@@ -162,7 +162,6 @@ $(document).on('click', '.modaledit-disable-silent', function () {
 });
 
 $(document).on('submit', 'form.modaledit-form', function (event) {
-    console.log('1');
     event.preventDefault();
 
     const formElement = this;
@@ -186,8 +185,6 @@ $(document).on('submit', 'form.modaledit-form', function (event) {
             contentType: false,
             data: data,
             success: function (response) {
-                form.find('button[type="submit"]').removeAttr('disabled');
-                console.log(response)
                 autosaveClean();
                 offPageLeaving();
                 if (response.substring(0, 8) == '<script>' && response.substring(response.length - 9) == '</script>') {
@@ -196,6 +193,7 @@ $(document).on('submit', 'form.modaledit-form', function (event) {
                     eval(script);
                     return;
                 }
+                form.find('button[type="submit"]').removeAttr('disabled');
                 $('#modaledit-modal div.modal-content').html(response);
 
             },
