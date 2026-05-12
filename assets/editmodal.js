@@ -171,12 +171,10 @@ $(document).on('submit', 'form.modaledit-form', function (event) {
     if (question && !confirm(question)) {
         return false;
     }
-
+    form.find('button[type="submit"]').attr('disabled', 'true');
     setTimeout(function () {
         const data = new FormData(formElement);
         info('Sending data...', 0);
-        form.find('button[type="submit"]').attr('disabled', 'true');
-
         $.ajax({
             url: form.attr('action'),
             method: form.attr('method'),
